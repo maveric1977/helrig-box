@@ -8,76 +8,132 @@
 <style>
   :root { --bg:#0a0a0a; --panel:#151515; --text:#f2efe9; --muted:#b9b5ad; --accent:#FFD23F; --bad:#ff7b72; --line:#2a2a2a; }
   * { box-sizing: border-box; }
-  body { margin:0; background:var(--bg); color:var(--text); font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
-  main { max-width:42rem; margin:0 auto; padding:2rem 1rem 4rem; }
-  h1 { display:flex; align-items:center; gap:.75rem; font-size:1.8rem; margin:0 0 .25rem; }
-  h1 img { height:2.4rem; width:2.4rem; }
-  h2 { font-size:1.1rem; margin:2rem 0 .5rem; }
-  p, li { color:var(--muted); } strong { color:var(--text); }
+  body { margin:0; background:var(--bg); color:var(--text); font:17px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; }
+  main { max-width:34rem; margin:0 auto; padding:2.5rem 1rem 3rem; }
+  h1 { display:flex; align-items:center; gap:.75rem; font-size:1.6rem; margin:0 0 1.5rem; line-height:1.2; }
+  h1 img { height:2.6rem; width:2.6rem; flex:none; }
   a { color:var(--accent); }
-  ol { padding-left:1.25rem; }
-  .card { background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:1rem 1.25rem; margin:1rem 0; }
-  button { font:inherit; font-weight:600; background:var(--accent); color:#0a0a0a; border:0; border-radius:8px; padding:.7rem 1.2rem; cursor:pointer; }
-  button:focus-visible, a:focus-visible, input:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
-  button[disabled] { opacity:.45; cursor:not-allowed; }
-  label { display:flex; gap:.5rem; align-items:flex-start; color:var(--muted); margin:.75rem 0; }
-  progress { width:100%; height:.6rem; accent-color:var(--accent); margin-top:1rem; }
-  #log { background:#000; border:1px solid var(--line); border-radius:8px; padding:.75rem; font:12px/1.4 ui-monospace,Menlo,Consolas,monospace; color:var(--muted); max-height:14rem; overflow:auto; white-space:pre-wrap; margin-top:1rem; }
-  #status { margin-top:1rem; font-weight:600; }
-  .bad { color:var(--bad); } .ok { color:var(--accent); }
-  [hidden] { display:none !important; }
+  code { background:#222; border-radius:4px; padding:.05em .35em; font-size:.9em; }
+  .muted { color:var(--muted); font-size:.92rem; }
+
+  .step { display:flex; gap:1rem; align-items:flex-start; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:1rem 1.1rem; margin:.75rem 0; }
+  .num { flex:none; width:2.1rem; height:2.1rem; border-radius:50%; background:var(--accent); color:#0a0a0a; font-weight:700; display:grid; place-items:center; }
+  .step h2 { font-size:1.1rem; margin:.1rem 0 .15rem; }
+  .step p { margin:0; color:var(--muted); font-size:.95rem; }
+  .step > div:not(.num) { flex:1; min-width:0; }
+
+  button.primary { font:inherit; font-weight:700; font-size:1.1rem; background:var(--accent); color:#0a0a0a; border:0; border-radius:10px; padding:.8rem 1.6rem; margin-top:.7rem; cursor:pointer; width:100%; }
+  button.primary[disabled] { opacity:.4; cursor:not-allowed; }
+  button:focus-visible, a:focus-visible, summary:focus-visible, input:focus-visible { outline:3px solid var(--accent); outline-offset:2px; }
+
+  progress { width:100%; height:.7rem; accent-color:var(--accent); margin-top:.9rem; }
+  #msg { margin-top:.8rem; font-weight:600; }
+  #msg.bad { color:var(--bad); } #msg.ok { color:var(--accent); }
+
+  #next { display:none; border-color:var(--accent); }
+  [data-state="done"] #next { display:flex; }
+  [data-state="working"] #progressbox { display:block; } #progressbox { display:none; }
+  [data-state="done"] #progressbox, [data-state="error"] #progressbox { display:block; }
+  #unsupported { display:none; background:#2a1210; border:1px solid var(--bad); border-radius:14px; padding:1rem 1.1rem; margin:0 0 1rem; }
+  [data-nosupport] #unsupported { display:block; }
+
+  details { margin:1rem 0 0; color:var(--muted); }
+  summary { cursor:pointer; padding:.35rem 0; font-weight:600; color:var(--text); }
+  details ul { margin:.4rem 0 .4rem 1.1rem; padding:0; }
+  details li { margin:.3rem 0; }
+  label { display:flex; gap:.6rem; align-items:flex-start; margin:.5rem 0; }
+  label input { margin-top:.3rem; }
+  #log { display:none; background:#000; border:1px solid var(--line); border-radius:8px; padding:.7rem; font:12px/1.4 ui-monospace,Menlo,Consolas,monospace; color:var(--muted); max-height:12rem; overflow:auto; white-space:pre-wrap; margin-top:.6rem; }
+  #log.on { display:block; }
+  footer { margin-top:2.5rem; font-size:.8rem; color:#7d7a74; }
+  footer a { color:#a39f97; }
 </style>
 </head>
-<body>
+<body data-state="idle">
 <main>
   <h1><img src="icon.svg" alt=""> Install the Helrig Box firmware</h1>
-  <p>Flash a Waveshare ESP32-P4-NANO from this page, with no tools to install. Version: <strong id="version">loading…</strong>.</p>
 
-  <div class="card" id="unsupported" hidden>
-    <strong class="bad">This browser can't flash a board.</strong>
-    <p>Web Serial is needed: use desktop <strong>Chrome</strong> or <strong>Edge</strong> (Windows, macOS or Linux). Safari, Firefox and phones don't have it.
-    The <a href="https://github.com/maveric1977/helrig-box/blob/main/docs/dev/build.md">build guide</a> shows the command-line way.</p>
+  <div id="unsupported">
+    <strong>Open this page in desktop Chrome or Edge.</strong><br>
+    <span class="muted">Safari, Firefox and phones cannot install firmware from a web page.</span>
   </div>
 
-  <h2>Before you start</h2>
-  <ol>
-    <li>Connect the board's <strong>UART USB-C</strong> port to this computer with a data cable. The pedal does not need to be connected.</li>
-    <li>Close any program that has the board's serial port open (a serial monitor, another flasher).</li>
-    <li>On Linux, your user must be in the <code>dialout</code> group (see the <a href="https://github.com/maveric1977/helrig-box/blob/main/docs/flashing.md#drivers">install guide</a>).</li>
-  </ol>
-
-  <div class="card">
-    <label><input type="checkbox" id="fresh"> <span><strong>Start as a new box.</strong> Also forget the saved Wi-Fi network, so the box raises its own setup network again. Leave this off to update a box and keep its Wi-Fi.</span></label>
-    <button id="go" disabled>Connect and install</button>
-    <progress id="bar" max="100" value="0" hidden></progress>
-    <div id="status" role="status" aria-live="polite"></div>
-    <div id="log" hidden></div>
+  <div class="step">
+    <div class="num">1</div>
+    <div>
+      <h2>Plug the board into this computer</h2>
+      <p>Use the board's <strong>USB-C</strong> port (not the USB-A one) and a cable that carries data.</p>
+    </div>
   </div>
 
-  <h2>What happens</h2>
-  <ol>
-    <li>Your browser asks which serial port to use. Pick the one called <strong>USB Single Serial</strong> (it may also show as a <code>usbmodem</code>, <code>ttyACM</code> or COM port).</li>
-    <li>The page checks the firmware files against their checksums, then writes them. It takes about <strong>2 minutes</strong>: it runs at the slowest speed on purpose, because a faster one resets the board half-way through. Keep this tab open and the cable connected.</li>
-    <li>The board restarts by itself. For a new box, join the Wi-Fi network <strong>Helrig Box &lt;id&gt;</strong> on your phone and open <code>http://192.168.4.1</code> to give it your Wi-Fi. <a href="https://github.com/maveric1977/helrig-box/blob/main/docs/setup.md">Setup guide</a>.</li>
-  </ol>
-  <p>If the page cannot connect, unplug and replug the board, or hold <strong>BOOT</strong>, tap <strong>RESET</strong>, release <strong>BOOT</strong>, and press the button again.</p>
+  <div class="step">
+    <div class="num">2</div>
+    <div>
+      <h2>Press Install</h2>
+      <p>When your browser asks, choose <strong>USB Single Serial</strong>.</p>
+      <button class="primary" id="go" disabled>Install</button>
+      <div id="progressbox">
+        <progress id="bar" max="100" value="0"></progress>
+        <div id="msg" role="status" aria-live="polite"></div>
+      </div>
+    </div>
+  </div>
 
-  <p style="margin-top:2rem;font-size:.9rem">Firmware: <a href="https://github.com/mpeskett88/ToneRelay">ToneRelay</a> (MIT) with the Helrig Box profile, from
-  <a href="https://github.com/maveric1977/helrig-box">helrig-box</a>. Flashing uses <a href="https://github.com/espressif/esptool-js">esptool-js</a> (Apache-2.0).
-  Helrig and the Helrig Box logo are Helrig's. Nothing leaves this page: it talks only to your board.</p>
+  <div class="step">
+    <div class="num">3</div>
+    <div>
+      <h2>Wait about 2 minutes</h2>
+      <p>Keep this tab open and the cable plugged in. The board restarts by itself.</p>
+    </div>
+  </div>
+
+  <div class="step" id="next">
+    <div class="num">✓</div>
+    <div>
+      <h2 id="next-title"></h2>
+      <p id="next-text"></p>
+    </div>
+  </div>
+
+  <details>
+    <summary>Having trouble?</summary>
+    <ul>
+      <li>Nothing in the list: try another cable, or unplug and replug the board.</li>
+      <li>Cannot connect: hold <strong>BOOT</strong>, tap <strong>RESET</strong>, release <strong>BOOT</strong>, then press Install again.</li>
+      <li>Close any program that is using the board's serial port.</li>
+      <li>Linux: your user must be in the <code>dialout</code> group.</li>
+      <li><a href="https://github.com/maveric1977/helrig-box/blob/main/docs/flashing.md#troubleshooting">More help</a></li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Options</summary>
+    <label><input type="checkbox" id="fresh"> <span>Start as a new box: also forget the saved Wi-Fi. Leave this off to update a box and keep its Wi-Fi.</span></label>
+    <p class="muted">Version <span id="version">…</span>. <a href="#" id="showlog">Show details</a></p>
+    <div id="log"></div>
+  </details>
+
+  <footer>
+    Firmware: <a href="https://github.com/mpeskett88/ToneRelay">ToneRelay</a> (MIT) with the Helrig Box profile, from <a href="https://github.com/maveric1977/helrig-box">helrig-box</a>.
+    Flashing uses <a href="https://github.com/espressif/esptool-js">esptool-js</a> (Apache-2.0). Helrig and the Helrig Box logo are Helrig's.
+    Nothing leaves this page: it talks only to your board.
+  </footer>
 </main>
 
 <script type="module">
 import { ESPLoader, Transport } from "./vendor/esptool-js.js";
 
 const $ = id => document.getElementById(id);
-const go = $("go"), bar = $("bar"), statusEl = $("status"), logEl = $("log");
+const go = $("go"), bar = $("bar"), msg = $("msg"), logEl = $("log");
 const NVS = { address: 0x9000, size: 0x6000 };   // the saved settings; partitions.csv
 const BAUD = 115200;                             // a baud change resets this board mid-flash (measured)
 const sleep = ms => new Promise(r => setTimeout(r, ms));
-const log = s => { logEl.hidden = false; logEl.textContent += s + "\n"; logEl.scrollTop = logEl.scrollHeight; };
-const say = (s, cls = "") => { statusEl.textContent = s; statusEl.className = cls; };
+const log = s => { logEl.textContent += s + "\n"; logEl.scrollTop = logEl.scrollHeight; };
+const state = s => { document.body.dataset.state = s; };
+const say = (s, cls = "") => { msg.textContent = s; msg.className = cls; };
 const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+
+$("showlog").addEventListener("click", e => { e.preventDefault(); logEl.classList.toggle("on"); });
 
 let manifest = null;
 async function loadManifest() {
@@ -85,22 +141,23 @@ async function loadManifest() {
     const r = await fetch("firmware/manifest.json", { cache: "no-cache" });
     if (!r.ok) throw new Error("HTTP " + r.status);
     manifest = await r.json();
-    $("version").textContent = manifest.version + " (ToneRelay " + manifest.toneRelay + ")";
+    $("version").textContent = manifest.version;
     go.disabled = !("serial" in navigator);
   } catch (e) {
     $("version").textContent = "not available";
-    say("The firmware files could not be loaded (" + e.message + ").", "bad");
+    state("error"); say("The firmware files could not be loaded (" + e.message + "). Reload the page.", "bad");
   }
 }
 
-if (!("serial" in navigator)) $("unsupported").hidden = false;
+if (!("serial" in navigator)) document.body.dataset.nosupport = "1";
 loadManifest();
 
 async function install() {
-  go.disabled = true; bar.hidden = false; bar.value = 0; logEl.textContent = "";
+  go.disabled = true; bar.value = 0; logEl.textContent = ""; say("");
+  state("working");
   let transport = null;
   try {
-    say("Choose the board's serial port…");
+    say("Choose “USB Single Serial” in the list…");
     const port = await navigator.serial.requestPort();
     transport = new Transport(port, false);
     const term = { clean() {}, writeLine: s => { if (!/Read Register/.test(s)) log(s); }, write: s => log(s) };
@@ -108,9 +165,9 @@ async function install() {
 
     say("Connecting…");
     const chip = await loader.main();
-    if (!/ESP32-P4/.test(chip)) throw new Error("This is not an ESP32-P4 (found: " + chip + "). Nothing was written.");
+    if (!/ESP32-P4/.test(chip)) throw new Error("This is not an ESP32-P4 board (found " + chip + "). Nothing was written.");
 
-    say("Checking the firmware files…");
+    say("Checking the firmware…");
     const fileArray = [];
     for (const p of manifest.parts) {
       const data = new Uint8Array(await (await fetch("firmware/" + p.file, { cache: "no-cache" })).arrayBuffer());
@@ -120,22 +177,37 @@ async function install() {
     }
     if ($("fresh").checked) fileArray.push({ data: new Uint8Array(NVS.size).fill(0xff), address: NVS.address });
 
-    say("Writing… keep this tab open and the cable connected.");
+    say("Installing… keep this tab open.");
     await loader.writeFlash({
       fileArray, flashSize: "keep", flashMode: "keep", flashFreq: "keep", eraseAll: false, compress: true,
-      reportProgress: (i, written, total) => { bar.value = 100 * written / total; },
+      // esptool-js reports per part (the small ones fill instantly), so weigh each part by its size for one bar from 0 to 100.
+      reportProgress: (i, written, total) => {
+        const sizes = fileArray.map(f => f.data.length), all = sizes.reduce((a, b) => a + b, 0);
+        const done = sizes.slice(0, i).reduce((a, b) => a + b, 0) + sizes[i] * (total ? written / total : 1);
+        bar.value = Math.max(bar.value, Math.min(99, 100 * done / all));
+        say("Installing… " + Math.round(bar.value) + "%");
+      },
       calculateMD5Hash: () => "",
     });
 
     // esptool-js's own hard reset pulses RTS only; DTR is still asserted from the connect, which holds BOOT low and restarts the chip in download mode.
     await transport.setDTR(false);
     await transport.setRTS(true); await sleep(120); await transport.setRTS(false); await sleep(50);
+    bar.value = 100;
     say("Done. The board is restarting.", "ok");
-    log("Done. Give the box about 10 seconds. " + ($("fresh").checked ? "Join the network Helrig Box <id> on your phone and open http://192.168.4.1." : "It rejoins your Wi-Fi by itself."));
+    if ($("fresh").checked) {
+      $("next-title").textContent = "Next: connect it to your Wi-Fi";
+      $("next-text").innerHTML = "On your phone, join the Wi-Fi network <strong>Helrig Box</strong> plus six characters, then open <code>192.168.4.1</code> and pick your home Wi-Fi. <a href=\"https://github.com/maveric1977/helrig-box/blob/main/docs/setup.md\">Setup guide</a>";
+    } else {
+      $("next-title").textContent = "All set";
+      $("next-text").innerHTML = "The box restarts and rejoins your Wi-Fi in about 10 seconds. If it does not appear, see the <a href=\"https://github.com/maveric1977/helrig-box/blob/main/docs/setup.md\">setup guide</a>.";
+    }
+    state("done");
   } catch (e) {
-    const m = e && e.name === "NotFoundError" ? "No port was chosen." : (e && e.message) || String(e);
-    say("Did not finish: " + m, "bad");
-    log("If the write stopped half-way, the box may not start. Run the page again, or flash with scripts/flash.sh.");
+    const m = e && e.name === "NotFoundError" ? "No port was chosen. Press Install and pick “USB Single Serial”." : (e && e.message) || String(e);
+    say(m + " If it stopped halfway, run the install again.", "bad");
+    log("Error: " + m);
+    state("error");
   } finally {
     try { if (transport) await transport.disconnect(); } catch (_) {}
     go.disabled = false;
