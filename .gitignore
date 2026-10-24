@@ -1,2 +1,6 @@
 # build products live in third_party/ToneRelay/esp32-p4/target; nothing is generated here
 .DS_Store
+
+# web flasher firmware parts are built by scripts/package-web.sh
+web/firmware/*.bin
+web/firmware/manifest.json

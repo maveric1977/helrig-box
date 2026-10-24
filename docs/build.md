@@ -37,6 +37,13 @@ sudo usermod -aG dialout $USER     # then log out and back in
 On the Ubuntu VM the user was not in that group, so flashing from it would have failed with a permission error. A Linux desktop with ModemManager
 running can also grab a new serial port for a few seconds; if the flash cannot connect, try again. [Not seen here.]
 
+## The quickest way: the web flasher
+
+If you only want to install the firmware, use the web flasher (`web/`, published with GitHub Pages): open it in desktop **Chrome or Edge**, connect the
+board's UART USB-C port, press **Connect and install**, and choose "USB Single Serial". It takes about 2 minutes, needs no tools, and keeps the saved
+Wi-Fi network unless you tick "Start as a new box". [Measured on macOS with Chrome, served from localhost: three updates, each of which restarted the
+box by itself and kept its Wi-Fi. Not yet tried on Windows or Linux, or from the published https page.] The rest of this page is for building the firmware yourself.
+
 ## What you need on the computer
 
 - **ESP-IDF v5.5.3** ([Espressif's install guide](https://docs.espressif.com/projects/esp-idf/en/v5.5.3/esp32p4/get-started/)), with its `export.sh`
