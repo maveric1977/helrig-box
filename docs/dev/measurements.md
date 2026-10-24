@@ -18,6 +18,10 @@ On an ESP32-P4-NANO with a Helix LT and an HX Stomp (one box, one Mac):
 (pin GPIO35); a phone kept listing the old network for 3 to 5 minutes. The 40 s fallback that brings the setup network back is in the code but has not
 been exercised.]
 
+## Flashing from a Waveshare factory board
+
+[Reported by the maintainer, not logged: with the board holding Waveshare's own 10.1" factory image (`merged-factory.bin` from `waveshareteam/ESP32-P4-Platform`, written at 0x0, which replaced our firmware, the settings and the catalog partition), the web flasher at `box.helrig.com/flash` in macOS Chrome installed v0.1.1 and the box worked. This is a stand-in for a new board: that package is a display build, and what a new NANO ships with is not documented.]
+
 ## Flashing and drivers
 
 [Measured: the web flasher wrote the firmware from macOS Chrome, served from localhost, in about 124 to 126 s at 115200 baud, four times; a faster
