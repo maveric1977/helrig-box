@@ -1,0 +1,9 @@
+{
+  "name": "helrig-box-web",
+  "private": true,
+  "description": "The Helrig Box web flasher and docs site (built by Vercel; see docs/dev/releasing.md).",
+  "license": "MIT",
+  "devDependencies": {
+    "marked": "18.0.12"
+  }
+}

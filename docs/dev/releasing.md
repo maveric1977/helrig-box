@@ -3,7 +3,8 @@
 The web flasher (`web/`) is a static site at **https://flash.helrig.com**, deployed by Vercel. It writes firmware parts that are built on a maintainer's
 machine and published with a GitHub release; the Vercel build downloads the latest release's `helrig-box-web-firmware.zip` into `web/firmware`
 (`web/fetch-firmware.sh`), so the page can fetch the parts from its own origin. Release downloads cannot be fetched from another origin by a page.
-[None of this has been run yet: the Vercel project, the hook and the first release do not exist.]
+The same build turns `README.md` and `docs/**/*.md` into pages under `/docs/` (`web/build-docs.mjs`, using `marked`), so a push to `main` updates the docs. The Vercel project
+needs **Include source files outside of the Root Directory in the Build Step** turned on (Settings → General), because the docs sit next to `web/`.
 
 ## One-time setup
 
