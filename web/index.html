@@ -32,8 +32,8 @@
 
   #next { display:none; border-color:var(--accent); }
   [data-state="done"] #next { display:flex; }
-  [data-state="working"] #progressbox { display:block; } #progressbox { display:none; }
-  [data-state="done"] #progressbox, [data-state="error"] #progressbox { display:block; }
+  #progressbox { display:none; }
+  [data-state="working"] #progressbox, [data-state="restarting"] #progressbox, [data-state="done"] #progressbox, [data-state="error"] #progressbox { display:block; }
   #unsupported { display:none; background:#2a1210; border:1px solid var(--bad); border-radius:14px; padding:1rem 1.1rem; margin:0 0 1rem; }
   [data-nosupport] #unsupported { display:block; }
 
@@ -152,6 +152,41 @@ async function loadManifest() {
 if (!("serial" in navigator)) document.body.dataset.nosupport = "1";
 loadManifest();
 
+function setNext(title, text) {
+  $("next-title").textContent = title;
+  const p = $("next-text");
+  p.textContent = text + " ";
+  const a = document.createElement("a");
+  a.href = "https://github.com/maveric1977/helrig-box/blob/main/docs/setup.md"; a.textContent = "Setup guide";
+  p.appendChild(a);
+}
+
+// Reads the board's start-up log (115200 baud, the same port) until it says it joined Wi-Fi or raised its setup network.
+async function readBootLog(port, ms = 45000) {
+  let reader = null, timer = null, result = null;
+  try {
+    await port.open({ baudRate: BAUD });
+    try { await port.setSignals({ dataTerminalReady: false, requestToSend: false }); } catch (_) {}
+    reader = port.readable.getReader();
+    timer = setTimeout(() => reader.cancel().catch(() => {}), ms);
+    const dec = new TextDecoder(); let buf = "";
+    while (!result) {
+      const { value, done } = await reader.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let m;
+      if ((m = buf.match(/STA ip=([0-9.]+)/))) result = { kind: "joined", ip: m[1], ssid: (buf.match(/STA joining ssid=([^\r\n]*)/) || [])[1] };
+      else if ((m = buf.match(/SoftAP (.+?) open at/))) result = { kind: "setup", name: m[1] };
+    }
+  } catch (e) { log("Could not read the start-up: " + (e && e.message)); }
+  finally {
+    if (timer) clearTimeout(timer);
+    try { if (reader) reader.releaseLock(); } catch (_) {}
+    try { await port.close(); } catch (_) {}
+  }
+  return result;
+}
+
 async function install() {
   go.disabled = true; bar.value = 0; logEl.textContent = ""; say("");
   state("working");
@@ -194,13 +229,22 @@ async function install() {
     await transport.setDTR(false);
     await transport.setRTS(true); await sleep(120); await transport.setRTS(false); await sleep(50);
     bar.value = 100;
-    say("Done. The board is restarting.", "ok");
-    if ($("fresh").checked) {
-      $("next-title").textContent = "Next: connect it to your Wi-Fi";
-      $("next-text").innerHTML = "On your phone, join the Wi-Fi network <strong>Helrig Box</strong> plus six characters, then open <code>192.168.4.1</code> and pick your home Wi-Fi. <a href=\"https://github.com/maveric1977/helrig-box/blob/main/docs/setup.md\">Setup guide</a>";
+    await transport.disconnect(); transport = null;
+
+    // The box prints its start-up on the same serial cable: read it to say what happened, instead of guessing.
+    state("restarting");
+    say("Installed. Waiting for the board to start…", "ok");
+    const result = await readBootLog(port);
+    log("Start-up result: " + JSON.stringify(result));
+    if (result && result.kind === "joined") {
+      say("Done. The board is running.", "ok");
+      setNext("All set", "Your box joined " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi") + " and is at " + result.ip + ". Open Helrig and choose the box in the device menu.");
+    } else if (result && result.kind === "setup") {
+      say("Done. The board is running.", "ok");
+      setNext("Next: connect it to your Wi-Fi", "On your phone, join the Wi-Fi network “" + result.name + "”, open 192.168.4.1 and pick your home Wi-Fi.");
     } else {
-      $("next-title").textContent = "All set";
-      $("next-text").innerHTML = "The box restarts and rejoins your Wi-Fi in about 10 seconds. If it does not appear, see the <a href=\"https://github.com/maveric1977/helrig-box/blob/main/docs/setup.md\">setup guide</a>.";
+      say("Installed. The board's start-up could not be read.", "ok");
+      setNext("Give it about 10 seconds", "Then open Helrig, or look for a Wi-Fi network called “Helrig Box” on your phone.");
     }
     state("done");
   } catch (e) {
