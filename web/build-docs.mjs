@@ -91,6 +91,16 @@ a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 footer{max-width:46rem;margin:0 auto;padding:0 1rem 3rem;font-size:.8rem;color:#7d7a74}footer a{color:#a39f97}
 @media(max-width:34rem){h1{font-size:1.5rem}}`;
 
+// Links to other sites open in a new tab (box.helrig.com's own pages stay in this one).
+const SITE_HOST = "box.helrig.com";
+function externalInNewTab(html) {
+  return html.replace(/<a\s([^>]*?)href="(https?:\/\/[^"]+)"([^>]*)>/g, (m, pre, href, post) => {
+    let host = ""; try { host = new URL(href).hostname; } catch (_) {}
+    if (host === SITE_HOST || /\btarget=/.test(pre + post)) return m;
+    return `<a ${pre}href="${href}"${post} target="_blank" rel="noopener noreferrer">`;
+  });
+}
+
 function page(src, body) {
   const title = titles[src] ?? src;
   const links = nav.map(([h, t]) => `<a href="${h}">${t}</a>`).join("");
@@ -107,6 +117,6 @@ mkdirSync(OUT, { recursive: true });
 for (const src of sources) {
   const file = fileOf(src);
   mkdirSync(dirname(file), { recursive: true });
-  writeFileSync(file, page(src, render(src)));
+  writeFileSync(file, externalInNewTab(page(src, render(src))));
   console.log(`build-docs: ${src} -> ${relative(WEB, file)}`);
 }

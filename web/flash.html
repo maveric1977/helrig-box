@@ -136,6 +136,11 @@ const state = s => { document.body.dataset.state = s; };
 const say = (s, cls = "") => { msg.textContent = s; msg.className = cls; };
 const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
 
+// Links to other sites open in a new tab.
+for (const a of document.querySelectorAll('a[href^="http"]')) {
+  if (new URL(a.href).hostname !== location.hostname) { a.target = "_blank"; a.rel = "noopener noreferrer"; }
+}
+
 $("showlog").addEventListener("click", e => { e.preventDefault(); logEl.classList.toggle("on"); });
 
 let manifest = null;
