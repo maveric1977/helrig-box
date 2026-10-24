@@ -6,9 +6,7 @@
 
 <p align="center">A small box that puts your Helix or HX pedal on your Wi-Fi, so <a href="https://helrig.com">Helrig</a> can edit it without a cable to your computer.</p>
 
-```
-Helrig on your computer  ──  Wi-Fi  ──  Helrig Box  ──  USB  ──  Helix / HX pedal
-```
+![Helrig on your computer, connected over Wi-Fi to the Helrig Box, connected by USB to your Helix or HX pedal](brand/diagrams/helrig-box-diagram-dark.svg)
 
 The pedal plugs into the box by USB, the box joins your Wi-Fi, and Helrig finds it and edits the pedal as it would over a cable. The box only carries
 the pedal's USB traffic; it does not read or change your presets itself.

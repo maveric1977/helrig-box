@@ -1,6 +1,6 @@
 // Builds the docs site: README.md and docs/**/*.md (one level up from web/) become static pages under web/docs/, in the flasher's look.
 // Run by Vercel as part of the build (web/vercel.json) and locally with `node build-docs.mjs` after `npm install`.
-import { readFileSync, writeFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
+import { readFileSync, writeFileSync, copyFileSync, mkdirSync, existsSync, readdirSync, statSync } from "node:fs";
 import { dirname, join, posix, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { Marked } from "marked";
@@ -44,6 +44,11 @@ function fix(href, from) {
   if (!pathPart) return href;
   const target = posix.normalize(posix.join(posix.dirname(from), pathPart));
   if (target === "brand/helrig-box-icon.svg") return "/icon.svg";
+  if (/^brand\/.+\.(svg|png)$/.test(target) && existsSync(join(ROOT, target))) {   // brand images the docs show: copy them next to the site
+    mkdirSync(dirname(join(WEB, target)), { recursive: true });
+    copyFileSync(join(ROOT, target), join(WEB, target));
+    return "/" + target + frag;
+  }
   if (sources.includes(target)) return urlOf(target) + frag;
   if (existsSync(join(ROOT, target))) return GITHUB + target + frag;
   console.warn(`build-docs: ${from}: link target not found: ${href}`);

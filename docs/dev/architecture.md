@@ -5,9 +5,7 @@ ToneRelay build a Helrig Box is a small **profile** (`profile/`): the names the 
 page it serves for Wi-Fi setup, and its defaults (relay-only on). Everything else, the relay, the USB handling and the Wi-Fi code, is ToneRelay's,
 and improvements to it go back to ToneRelay.
 
-```
-Helrig on your computer  ──  Wi-Fi, ws://helrigbox.local/raw  ──  Helrig Box  ──  USB  ──  Helix / HX
-```
+![Helrig on your computer, connected over Wi-Fi to the Helrig Box, connected by USB to your Helix or HX pedal](../../brand/diagrams/helrig-box-diagram-dark.svg)
 
 The box carries the pedal's USB transfers and does not interpret them; Helrig is the only thing that speaks the pedal's protocol. The contract
 between the two is ToneRelay's `docs/raw-relay-protocol.md`.
