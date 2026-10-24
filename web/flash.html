@@ -183,8 +183,10 @@ async function readBootLog(port, ms = 45000) {
       if (done) break;
       buf += dec.decode(value, { stream: true });
       let m;
-      if ((m = buf.match(/STA ip=([0-9.]+)/))) result = { kind: "joined", ip: m[1], ssid: (buf.match(/STA joining ssid=([^\r\n]*)/) || [])[1] };
+      const ssid = (buf.match(/STA joining ssid=([^\r\n]*)/) || [])[1];
+      if ((m = buf.match(/STA ip=([0-9.]+)/))) result = { kind: "joined", ip: m[1], ssid };
       else if ((m = buf.match(/SoftAP (.+?) open at/))) result = { kind: "setup", name: m[1] };
+      else if (ssid && (buf.match(/STA retry \d+/g) || []).length >= 3) result = { kind: "nojoin", ssid };   // it keeps trying and failing
     }
   } catch (e) { log("Could not read the start-up: " + (e && e.message)); }
   finally {
@@ -247,6 +249,9 @@ async function install() {
     if (result && result.kind === "joined") {
       say("Done. The board is running.", "ok");
       setNext("All set", "Your box joined " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi") + " and is at " + result.ip + ". Open Helrig and choose the box in the device menu.");
+    } else if (result && result.kind === "nojoin") {
+      say("Installed. The board is running, but it is not on your Wi-Fi.", "bad");
+      setNext("The box cannot join " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi"), "Check that the network is on and 2.4 GHz, and that the box is near the router. To set it up again, hold the board's BOOT button for 5 seconds, then join the “Helrig Box” network on your phone and open 192.168.4.1.");
     } else if (result && result.kind === "setup") {
       say("Done. The board is running.", "ok");
       setNext("Next: connect it to your Wi-Fi", "On your phone, join the Wi-Fi network “" + result.name + "”, open 192.168.4.1 and pick your home Wi-Fi.");
