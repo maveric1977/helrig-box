@@ -25,12 +25,24 @@ const sources = ["README.md"];
     else if (name.endsWith(".md")) sources.push(p);
   }
 })("docs");
-const urlOf = src => src === "README.md" ? "/" : "/" + src.replace(/\.md$/, "");
-const fileOf = src => src === "README.md" ? join(WEB, "index.html") : join(WEB, src.replace(/\.md$/, ".html"));
+(function walk(dir) {   // the 3D-printable case's pages
+  if (!existsSync(join(ROOT, dir))) return;
+  for (const name of readdirSync(join(ROOT, dir)).sort()) {
+    const p = posix.join(dir, name);
+    if (statSync(join(ROOT, p)).isDirectory()) walk(p);
+    else if (name.endsWith(".md")) sources.push(p);
+  }
+})("hardware");
+// A README.md is its folder's index page; the top-level one is the site root.
+const isIndex = src => posix.basename(src) === "README.md";
+const urlOf = src => isIndex(src) ? (posix.dirname(src) === "." ? "/" : "/" + posix.dirname(src) + "/") : "/" + src.replace(/\.md$/, "");
+const fileOf = src => isIndex(src) ? join(WEB, posix.dirname(src) === "." ? "" : posix.dirname(src), "index.html") : join(WEB, src.replace(/\.md$/, ".html"));
 const titles = {
   "README.md": "Overview", "docs/flashing.md": "Install the firmware", "docs/setup.md": "Set up a Helrig Box",
   "docs/dev/architecture.md": "How it fits together", "docs/dev/build.md": "Build from source", "docs/dev/releasing.md": "Releasing",
   "docs/dev/measurements.md": "What has been measured", "docs/dev/setup-page.md": "The setup page",
+  "hardware/casing/README.md": "3D-printable case", "hardware/casing/ATTRIBUTION.md": "Case attribution",
+  "hardware/casing/single-colour/README.md": "Case: single colour", "hardware/casing/multi-colour/README.md": "Case: multi colour",
 };
 
 const slug = s => s.toLowerCase().replace(/<[^>]+>/g, "").replace(/[^a-z0-9 _-]/g, "").trim().replace(/ /g, "-");
@@ -44,12 +56,14 @@ function fix(href, from) {
   if (!pathPart) return href;
   const target = posix.normalize(posix.join(posix.dirname(from), pathPart));
   if (target === "brand/helrig-box-icon.svg") return "/icon.svg";
-  if (/^brand\/.+\.(svg|png)$/.test(target) && existsSync(join(ROOT, target))) {   // brand images the docs show: copy them next to the site
+  if (/^(brand|hardware)\/.+\.(svg|png)$/.test(target) && existsSync(join(ROOT, target))) {   // images the docs show: copy them next to the site
     mkdirSync(dirname(join(WEB, target)), { recursive: true });
     copyFileSync(join(ROOT, target), join(WEB, target));
     return "/" + target + frag;
   }
   if (sources.includes(target)) return urlOf(target) + frag;
+  const folderIndex = posix.join(target.replace(/\/$/, ""), "README.md");   // a link to a folder goes to its README page
+  if (sources.includes(folderIndex)) return urlOf(folderIndex) + frag;
   if (existsSync(join(ROOT, target))) return GITHUB + target + frag;
   console.warn(`build-docs: ${from}: link target not found: ${href}`);
   return href;
@@ -75,7 +89,7 @@ function render(src) {
   return html;
 }
 
-const nav = [["/", "Overview"], ["/flash", "Install"], ["/docs/flashing", "Guide"], ["/docs/setup", "Setup"], ["/docs/dev/architecture", "Developers"]];
+const nav = [["/", "Overview"], ["/flash", "Install"], ["/docs/flashing", "Guide"], ["/docs/setup", "Setup"], ["/hardware/casing/", "Case"], ["/docs/dev/architecture", "Developers"]];
 const CSS = `
 *{box-sizing:border-box}body{margin:0;font-size:15px;line-height:1.65}
 header{border-bottom:1px solid var(--line)}header div{max-width:46rem;margin:0 auto;padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}

@@ -11,6 +11,13 @@ file. The relay protocol the Helrig app speaks is ToneRelay's `docs/raw-relay-pr
 `web/vendor/esptool-js.js` is [esptool-js](https://github.com/espressif/esptool-js) 0.7.0 (Apache-2.0, Copyright Espressif Systems; the licence is in
 `web/vendor/LICENSE-esptool-js`). The file is Espressif's published bundle, unmodified, and it includes pako (MIT and Zlib) and atob-lite (MIT).
 
+## The 3D-printable case
+
+The files in `hardware/casing/` are an adaptation of the [Waveshare ESP32-P4-NANO case and board model](https://www.printables.com/model/1497431-waveshare-esp32-p4-nano-case-and-board-model)
+by MartinFaustMayer (@MartinFaustMa_212591) on Printables, licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/), and are shared under the same licence, not under
+this repository's MIT licence. `hardware/casing/ATTRIBUTION.md` has the credit and the list of changes; keep it with the files if you share them. The Helrig symbol and wordmark
+debossed in the lid are Helrig's (see "Helrig name and logo" below): the licence covers the model, not the Helrig name or logo.
+
 ## Fonts
 
 The web flasher and the docs use **Oxanium** (Copyright 2019 The Oxanium Project Authors) and **Geist Mono** (Copyright 2024 The Geist Project Authors), the fonts

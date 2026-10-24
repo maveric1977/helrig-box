@@ -8,7 +8,7 @@
 | **A USB-C cable that carries data** | For power and flashing. A charge-only cable will not show a serial device. |
 | **A USB-C power source** | A 5 V phone charger or a computer port. |
 | **The pedal's USB cable** | The cable you would use to connect the pedal to a computer, with a USB-A plug on the end that goes into the box, because the box's pedal port is **USB-A**. Check which connector your pedal has. |
-| **A case** (optional) | None is specified yet. |
+| **A case** (optional) | A 3D-printable [lid and bottom](../hardware/casing/README.md), in a single-colour and a multi-colour version. Not test-printed yet. |
 
 Pedals tried so far: a Helix LT and an HX Stomp. Others in the family have not been tried. The Wi-Fi is **2.4 GHz only**: the setup page does not list
 5 GHz networks. Other ESP32-P4 boards are untested.

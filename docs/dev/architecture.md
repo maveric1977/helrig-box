@@ -16,6 +16,7 @@ between the two is ToneRelay's `docs/raw-relay-protocol.md`.
 | `profile/setup.html` | The setup and status page the box serves (about 9 KB, no network requests, the logo inline). |
 | `brand/` | The lockup, icon and diagram SVGs, and the brief the setup page follows. Helrig's artwork: see `NOTICE.md`. |
 | `scripts/build.sh`, `scripts/flash.sh` | Build ToneRelay with this profile; flash it, and optionally clear the box's settings. |
+| `hardware/casing/` | The 3D-printable case (STL files, previews and print notes), an adaptation of a CC BY 4.0 model: see `NOTICE.md`. |
 | `scripts/package-web.sh` | Split the build into the parts the web flasher writes. |
 | `web/` | The site at box.helrig.com, deployed by Vercel: the overview, the web flasher (`/flash`) and the docs, which `build-docs.mjs` builds from `README.md` and `docs/` ([releasing](releasing.md)). |
 | `third_party/ToneRelay` | ToneRelay's source, pinned (a submodule). Until the changes this depends on are merged upstream, it points at a fork. |
