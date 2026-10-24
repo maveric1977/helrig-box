@@ -1,0 +1,2 @@
+# build products live in third_party/ToneRelay/esp32-p4/target; nothing is generated here
+.DS_Store
