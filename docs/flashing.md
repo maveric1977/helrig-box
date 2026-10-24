@@ -4,7 +4,7 @@
 
 | Part | Notes |
 |---|---|
-| **[Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm)** ([wiki](https://www.waveshare.com/wiki/ESP32-P4-NANO)) | The board this firmware is built and tested on. Its ESP32-P4 talks to the pedal over the **USB-A** port; an onboard ESP32-C6 provides the Wi-Fi. Waveshare sells it as several kits (with a speaker, camera, PoE module or display): the firmware uses none of the extras, so the board alone or the basic kit is enough. |
+| **[Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm?sku=29026)** ([wiki](https://www.waveshare.com/wiki/ESP32-P4-NANO)) | The board this firmware is built and tested on. Its ESP32-P4 talks to the pedal over the **USB-A** port; an onboard ESP32-C6 provides the Wi-Fi. Waveshare sells it as several kits: order the **Basic Kit** (the board and a speaker). The firmware uses no extras, so you do not need the camera, PoE or display kits. |
 | **A USB-C cable that carries data** | For power and flashing. A charge-only cable will not show a serial device. |
 | **A USB-C power source** | A 5 V phone charger or a computer port. |
 | **The pedal's USB cable** | The cable you would use to connect the pedal to a computer, with a USB-A plug on the end that goes into the box, because the box's pedal port is **USB-A**. Check which connector your pedal has. |
