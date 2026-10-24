@@ -9,7 +9,7 @@ needs **Include source files outside of the Root Directory in the Build Step** t
 ## One-time setup
 
 1. **Vercel project:** import `maveric1977/helrig-box`, set **Root Directory** to `web`, leave the framework as "Other". `web/vercel.json` sets the build
-   command (`sh fetch-firmware.sh`) and the output directory. Add the domain `box.helrig.com` (primary), and make `flash.helrig.com` redirect to `box.helrig.com/flash`.
+   command (`sh fetch-firmware.sh`) and the output directory. Add the domain `box.helrig.com` (primary), and add `flash.helrig.com` as a normal domain connected to Production: a host rule in `web/vercel.json` redirects it to `box.helrig.com/flash`. (Vercel's own domain redirect cannot include a path.)
 2. **Deploy hook:** in the project settings (Git → Deploy Hooks) create a hook for the `main` branch, and save its URL as the repository secret
    `VERCEL_DEPLOY_HOOK_URL` (Settings → Secrets and variables → Actions). `.github/workflows/deploy-web.yml` calls it when a release is published.
 3. The first deploy fails until a release exists with the zip attached; that is expected.

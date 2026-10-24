@@ -25,6 +25,17 @@
   ],
   "redirects": [
     {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "flash.helrig.com"
+        }
+      ],
+      "destination": "https://box.helrig.com/flash",
+      "permanent": false
+    },
+    {
       "source": "/docs",
       "destination": "/",
       "permanent": false
