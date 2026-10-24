@@ -19,7 +19,7 @@ between the two is ToneRelay's `docs/raw-relay-protocol.md`.
 | `brand/` | The lockup and icon SVGs and the brief the page follows. Helrig's artwork: see `NOTICE.md`. |
 | `scripts/build.sh`, `scripts/flash.sh` | Build ToneRelay with this profile; flash it, and optionally clear the box's settings. |
 | `scripts/package-web.sh` | Split the build into the parts the web flasher writes. |
-| `web/` | The web flasher, published at flash.helrig.com on Vercel ([releasing](releasing.md)). |
+| `web/` | The web flasher, published at box.helrig.com on Vercel ([releasing](releasing.md)). |
 | `third_party/ToneRelay` | ToneRelay's source, pinned (a submodule). Until the changes this depends on are merged upstream, it points at a fork. |
 
 See also: [build from source](build.md), [releasing](releasing.md), [setup page](setup-page.md), [measurements](measurements.md).

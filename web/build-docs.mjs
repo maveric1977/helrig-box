@@ -25,8 +25,8 @@ const sources = ["README.md"];
     else if (name.endsWith(".md")) sources.push(p);
   }
 })("docs");
-const urlOf = src => src === "README.md" ? "/docs/" : "/" + src.replace(/\.md$/, "");
-const fileOf = src => src === "README.md" ? join(OUT, "index.html") : join(WEB, src.replace(/\.md$/, ".html"));
+const urlOf = src => src === "README.md" ? "/" : "/" + src.replace(/\.md$/, "");
+const fileOf = src => src === "README.md" ? join(WEB, "index.html") : join(WEB, src.replace(/\.md$/, ".html"));
 const titles = {
   "README.md": "Overview", "docs/flashing.md": "Install the firmware", "docs/setup.md": "Set up a Helrig Box",
   "docs/dev/architecture.md": "How it fits together", "docs/dev/build.md": "Build from source", "docs/dev/releasing.md": "Releasing",
@@ -70,7 +70,7 @@ function render(src) {
   return html;
 }
 
-const nav = [["/", "Install"], ["/docs/", "Overview"], ["/docs/flashing", "Flashing"], ["/docs/setup", "Setup"], ["/docs/dev/architecture", "Developers"]];
+const nav = [["/", "Overview"], ["/flash", "Install"], ["/docs/flashing", "Guide"], ["/docs/setup", "Setup"], ["/docs/dev/architecture", "Developers"]];
 const CSS = `
 *{box-sizing:border-box}body{margin:0;font-size:17px;line-height:1.6}
 header{border-bottom:1px solid var(--line)}header div{max-width:46rem;margin:0 auto;padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}

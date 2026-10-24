@@ -19,7 +19,7 @@ You also need [Helrig](https://helrig.com) on your computer. Connecting to a ped
 
 1. Use desktop **Chrome** or **Edge** (Windows, macOS or Linux). Safari, Firefox and phones cannot do this.
 2. Connect the board's **UART USB-C** port to your computer. The pedal does not need to be plugged in yet.
-3. Open the web flasher: **https://flash.helrig.com**
+3. Open the web flasher: **https://box.helrig.com/flash**
 4. Press **Connect and install** and choose **USB Single Serial** in the list (it may be named `usbmodem`, `ttyACM` or a COM port).
 5. Wait about **2 minutes** and keep the tab open and the cable connected. The board restarts by itself.
 

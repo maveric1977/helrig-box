@@ -22,5 +22,17 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/docs",
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/docs/",
+      "destination": "/",
+      "permanent": false
+    }
   ]
 }

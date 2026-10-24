@@ -4,12 +4,14 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Helrig Box: install the firmware</title>
-<link rel="icon" href="icon.svg">
+<link rel="icon" href="/icon.svg">
 <link rel="stylesheet" href="/site.css">
 <style>
   * { box-sizing: border-box; }
   body { margin:0; font-size:17px; line-height:1.45; }
   main { max-width:34rem; margin:0 auto; padding:2.5rem 1rem 3rem; }
+  nav.top { display:flex; gap:1.1rem; margin:0 0 1.2rem; font-size:.95rem; }
+  nav.top a { color:var(--muted); text-decoration:none; } nav.top a:hover { color:var(--text); }
   h1 { display:flex; align-items:center; gap:.75rem; font-size:1.6rem; margin:0 0 1.5rem; line-height:1.2; }
   h1 img { height:2.6rem; width:2.6rem; flex:none; }
   a { color:var(--accent); }
@@ -51,7 +53,8 @@
 </head>
 <body data-state="idle">
 <main>
-  <h1><img src="icon.svg" alt=""> Install the Helrig Box firmware</h1>
+  <nav class="top"><a href="/">Helrig Box</a> <a href="/docs/flashing">Guide</a> <a href="/docs/setup">Setup</a></nav>
+  <h1><img src="/icon.svg" alt=""> Install the Helrig Box firmware</h1>
 
   <div id="unsupported">
     <strong>Open this page in desktop Chrome or Edge.</strong><br>
@@ -121,7 +124,7 @@
 </main>
 
 <script type="module">
-import { ESPLoader, Transport } from "./vendor/esptool-js.js";
+import { ESPLoader, Transport } from "/vendor/esptool-js.js";
 
 const $ = id => document.getElementById(id);
 const go = $("go"), bar = $("bar"), msg = $("msg"), logEl = $("log");
@@ -138,7 +141,7 @@ $("showlog").addEventListener("click", e => { e.preventDefault(); logEl.classLis
 let manifest = null;
 async function loadManifest() {
   try {
-    const r = await fetch("firmware/manifest.json", { cache: "no-cache" });
+    const r = await fetch("/firmware/manifest.json", { cache: "no-cache" });
     if (!r.ok) throw new Error("HTTP " + r.status);
     manifest = await r.json();
     $("version").textContent = manifest.version;
@@ -205,7 +208,7 @@ async function install() {
     say("Checking the firmware…");
     const fileArray = [];
     for (const p of manifest.parts) {
-      const data = new Uint8Array(await (await fetch("firmware/" + p.file, { cache: "no-cache" })).arrayBuffer());
+      const data = new Uint8Array(await (await fetch("/firmware/" + p.file, { cache: "no-cache" })).arrayBuffer());
       if (data.length !== p.size || hex(await crypto.subtle.digest("SHA-256", data)) !== p.sha256)
         throw new Error(p.file + " does not match its checksum. Nothing was written.");
       fileArray.push({ data, address: p.offset });
