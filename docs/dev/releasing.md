@@ -18,7 +18,7 @@ needs **Include source files outside of the Root Directory in the Build Step** t
 
 1. Commit everything, so the version is not marked `-dirty`, and tag it: `git tag v0.1.0`.
 2. `scripts/build.sh --release` (see [build.md](build.md)), then `scripts/package-web.sh --release`. This writes `web/firmware/`.
-3. Try it locally: `cd web && python3 -m http.server 8765 --bind 127.0.0.1`, open `http://127.0.0.1:8765` in Chrome or Edge, and flash a board.
+3. Try it locally: `cd web && npm install && node build-docs.mjs` (this builds the docs pages and the flasher page), then `python3 -m http.server 8765 --bind 127.0.0.1`, open `http://127.0.0.1:8765/flash.html` in Chrome or Edge, and flash a board.
 4. Zip and publish:
 
 ```bash

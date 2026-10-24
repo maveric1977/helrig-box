@@ -89,11 +89,21 @@ function render(src) {
   return html;
 }
 
-const nav = [["/", "Overview"], ["/flash", "Install"], ["/docs/flashing", "Guide"], ["/docs/setup", "Setup"], ["/hardware/casing/", "Case"], ["/docs/dev/architecture", "Developers"]];
+// The navbar: label, address, and which page addresses count as "this item" (the current one is highlighted).
+const nav = [
+  ["Overview", "/", u => u === "/"],
+  ["Install", "/flash", u => u === "/flash"],
+  ["Guide", "/docs/flashing", u => u === "/docs/flashing"],
+  ["Setup", "/docs/setup", u => u === "/docs/setup"],
+  ["Case", "/hardware/casing/", u => u.startsWith("/hardware/")],
+  ["Developers", "/docs/dev/architecture", u => u.startsWith("/docs/dev/")],
+];
+function header(url) {
+  const links = nav.map(([label, href, here]) => `<a href="${href}"${here(url) ? ' aria-current="page"' : ""}>${label}</a>`).join("");
+  return `<header class="site-header"><div><a class="brand" href="/"><img src="/icon.svg" alt=""> Helrig Box</a>${links}</div></header>`;
+}
 const CSS = `
 *{box-sizing:border-box}body{margin:0;font-size:15px;line-height:1.65}
-header{border-bottom:1px solid var(--line)}header div{max-width:46rem;margin:0 auto;padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-header img{height:2rem;width:2rem}header a{color:var(--muted);text-decoration:none;font-size:.875rem}header a:hover{color:var(--text)}header a.brand{color:var(--text);font-weight:700;display:flex;gap:.5rem;align-items:center;margin-right:auto}
 main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 4rem}
 h1,h2,h3{line-height:1.25}h1{font-size:1.75rem}h2{font-size:1.2rem;margin-top:2.2rem}h3{font-size:1rem}
 p,li{color:#d9d5cc}strong{color:var(--text)}a{color:var(--accent)}
@@ -117,11 +127,10 @@ function externalInNewTab(html) {
 
 function page(src, body) {
   const title = titles[src] ?? src;
-  const links = nav.map(([h, t]) => `<a href="${h}">${t}</a>`).join("");
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${esc(title)} · Helrig Box</title><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/site.css"><style>${CSS}</style></head>
-<body><header><div><a class="brand" href="/"><img src="/icon.svg" alt=""> Helrig Box</a>${links}</div></header>
+<body>${header(urlOf(src))}
 <main>${body}</main>
 <footer>Source: <a href="${GITHUB}${src}">${esc(src)}</a> on GitHub.</footer></body></html>
 `;
@@ -133,4 +142,11 @@ for (const src of sources) {
   mkdirSync(dirname(file), { recursive: true });
   writeFileSync(file, externalInNewTab(page(src, render(src))));
   console.log(`build-docs: ${src} -> ${relative(WEB, file)}`);
+}
+
+// The flasher page is a template (flash.template.html) so it gets the same navbar as the docs.
+const tpl = join(WEB, "flash.template.html");
+if (existsSync(tpl)) {
+  writeFileSync(join(WEB, "flash.html"), readFileSync(tpl, "utf8").replace("<!--HEADER-->", header("/flash")));
+  console.log("build-docs: flash.template.html -> flash.html");
 }

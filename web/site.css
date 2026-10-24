@@ -15,3 +15,13 @@
 }
 body { font-family: var(--sans); background: var(--bg); color: var(--text); }
 code, pre, kbd { font-family: var(--mono); }
+
+/* The navbar every page shares (built by build-docs.mjs). */
+.site-header { border-bottom: 1px solid var(--line); }
+.site-header div { max-width: 46rem; margin: 0 auto; padding: .7rem 1rem; display: flex; gap: .15rem 1.1rem; align-items: center; flex-wrap: wrap; }
+.site-header img { height: 2rem; width: 2rem; }
+.site-header a { color: var(--muted); text-decoration: none; font-size: .875rem; padding: .4rem 0; border-bottom: 2px solid transparent; }
+.site-header a:hover { color: var(--text); }
+.site-header a.brand { color: var(--text); font-weight: 700; font-size: 1rem; display: flex; gap: .5rem; align-items: center; margin-right: auto; padding: 0; border-bottom: 0; }
+.site-header a[aria-current="page"] { color: var(--text); font-weight: 600; border-bottom-color: var(--accent); }
+.site-header a:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
