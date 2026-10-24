@@ -29,6 +29,7 @@ contract between the two is ToneRelay's `docs/raw-relay-protocol.md`.
 | `profile/setup.html` | The setup and status page the box serves (about 9 KB, no network requests, the logo inline). |
 | `brand/` | The lockup SVGs and the brief the page follows. Helrig's artwork: see `NOTICE.md`. |
 | `scripts/build.sh`, `scripts/flash.sh` | Build ToneRelay with this profile; flash it, and optionally clear the box's settings. |
+| `docs/build.md` | What to buy, what to install, how to build and flash. |
 | `docs/setup.md` | What a new owner does, factory reset, and what has been measured. |
 | `third_party/ToneRelay` | ToneRelay's source, pinned (a submodule). |
 
