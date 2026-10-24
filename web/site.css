@@ -1,0 +1,17 @@
+/* Shared by the flasher page and the docs. The fonts and the colours follow helrig.com (Oxanium, Geist Mono, its dark theme); the yellow accent is the Helrig Box colour. */
+@font-face { font-family: Oxanium; font-style: normal; font-weight: 200 800; font-display: swap; src: url(/fonts/oxanium-latin.woff2) format("woff2"); }
+@font-face { font-family: "Geist Mono"; font-style: normal; font-weight: 100 900; font-display: swap; src: url(/fonts/geist-mono-latin.woff2) format("woff2"); }
+:root {
+  --bg: #060406;        /* helrig.com --background (dark) */
+  --text: #fafafa;      /* --foreground */
+  --panel: #1b141c;     /* a step darker than helrig.com's card (#282029), for large surfaces */
+  --muted: #a89ea9;     /* --muted-foreground */
+  --line: #ffffff1a;    /* --border */
+  --accent: #FFD23F;    /* Helrig Box signal yellow */
+  --bad: #ff7b72;
+  --radius: .45rem;
+  --sans: Oxanium, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+body { font-family: var(--sans); background: var(--bg); color: var(--text); }
+code, pre, kbd { font-family: var(--mono); }

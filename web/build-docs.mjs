@@ -72,8 +72,7 @@ function render(src) {
 
 const nav = [["/", "Install"], ["/docs/", "Overview"], ["/docs/flashing", "Flashing"], ["/docs/setup", "Setup"], ["/docs/dev/architecture", "Developers"]];
 const CSS = `
-:root{--bg:#0a0a0a;--panel:#151515;--text:#f2efe9;--muted:#b9b5ad;--accent:#FFD23F;--line:#2a2a2a}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:17px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+*{box-sizing:border-box}body{margin:0;font-size:17px;line-height:1.6}
 header{border-bottom:1px solid var(--line)}header div{max-width:46rem;margin:0 auto;padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
 header img{height:2rem;width:2rem}header a{color:var(--muted);text-decoration:none;font-size:.95rem}header a:hover{color:var(--text)}header a.brand{color:var(--text);font-weight:700;display:flex;gap:.5rem;align-items:center;margin-right:auto}
 main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 4rem}
@@ -92,7 +91,7 @@ function page(src, body) {
   const links = nav.map(([h, t]) => `<a href="${h}">${t}</a>`).join("");
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)} · Helrig Box</title><link rel="icon" href="/icon.svg"><style>${CSS}</style></head>
+<title>${esc(title)} · Helrig Box</title><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/site.css"><style>${CSS}</style></head>
 <body><header><div><a class="brand" href="/"><img src="/icon.svg" alt=""> Helrig Box</a>${links}</div></header>
 <main>${body}</main>
 <footer>Source: <a href="${GITHUB}${src}">${esc(src)}</a> on GitHub.</footer></body></html>
