@@ -15,7 +15,7 @@ Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in H
 
 ## Get one running
 
-1. **Get the parts.** A [Waveshare ESP32-P4-NANO](https://www.waveshare.com/wiki/ESP32-P4-NANO) board, a USB-C cable that carries data, a USB-C power source,
+1. **Get the parts.** A [Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm) board ([wiki](https://www.waveshare.com/wiki/ESP32-P4-NANO)), a USB-C cable that carries data, a USB-C power source,
    and the USB cable you use to connect your pedal to a computer. [Full list](docs/flashing.md#what-you-need).
 2. **Install the firmware** from your browser (desktop Chrome or Edge), with nothing to install: **[box.helrig.com/flash](https://box.helrig.com/flash)**.
    It takes about 2 minutes. [Step by step, drivers and troubleshooting](docs/flashing.md).
