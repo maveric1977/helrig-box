@@ -1,0 +1,4 @@
+[submodule "third_party/ToneRelay"]
+	path = third_party/ToneRelay
+	url = git@github.com:maveric1977/ToneRelay.git
+	branch = feature/profiles
