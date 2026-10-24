@@ -1,8 +1,4 @@
-<p align="center">
-  <img src="brand/helrig-box-icon.svg" alt="" width="120">
-</p>
-
-<h1 align="center">Helrig Box</h1>
+# <img src="brand/helrig-box-icon.svg" alt="" height="40" align="top"> Helrig Box
 
 The Helrig Box is a small box that sits next to a Line 6 Helix or HX pedal and gives the [Helrig](https://helrig.com) apps wireless access to
 it. The pedal plugs into the box by USB, the box joins your Wi-Fi, and Helrig on your computer finds it and edits the pedal as it would over
