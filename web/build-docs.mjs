@@ -77,19 +77,19 @@ function render(src) {
 
 const nav = [["/", "Overview"], ["/flash", "Install"], ["/docs/flashing", "Guide"], ["/docs/setup", "Setup"], ["/docs/dev/architecture", "Developers"]];
 const CSS = `
-*{box-sizing:border-box}body{margin:0;font-size:17px;line-height:1.6}
+*{box-sizing:border-box}body{margin:0;font-size:15px;line-height:1.65}
 header{border-bottom:1px solid var(--line)}header div{max-width:46rem;margin:0 auto;padding:.8rem 1rem;display:flex;gap:1rem;align-items:center;flex-wrap:wrap}
-header img{height:2rem;width:2rem}header a{color:var(--muted);text-decoration:none;font-size:.95rem}header a:hover{color:var(--text)}header a.brand{color:var(--text);font-weight:700;display:flex;gap:.5rem;align-items:center;margin-right:auto}
+header img{height:2rem;width:2rem}header a{color:var(--muted);text-decoration:none;font-size:.875rem}header a:hover{color:var(--text)}header a.brand{color:var(--text);font-weight:700;display:flex;gap:.5rem;align-items:center;margin-right:auto}
 main{max-width:46rem;margin:0 auto;padding:1.5rem 1rem 4rem}
-h1,h2,h3{line-height:1.25}h1{font-size:1.9rem}h2{font-size:1.35rem;margin-top:2.2rem}h3{font-size:1.1rem}
+h1,h2,h3{line-height:1.25}h1{font-size:1.75rem}h2{font-size:1.2rem;margin-top:2.2rem}h3{font-size:1rem}
 p,li{color:#d9d5cc}strong{color:var(--text)}a{color:var(--accent)}
 code{background:#222;border-radius:4px;padding:.05em .35em;font-size:.88em}
 pre{background:#000;border:1px solid var(--line);border-radius:10px;padding:.9rem 1rem;overflow:auto;line-height:1.45}pre code{background:none;padding:0}
-table{border-collapse:collapse;width:100%;display:block;overflow:auto}th,td{border:1px solid var(--line);padding:.45rem .7rem;text-align:left;vertical-align:top}th{background:var(--panel)}
+table{border-collapse:collapse;width:100%;display:block;overflow:auto}th,td{border:1px solid var(--line);padding:.4rem .65rem;text-align:left;vertical-align:top;font-size:.9em}strong,th{font-weight:600}th{background:var(--panel)}
 img{max-width:100%}hr{border:0;border-top:1px solid var(--line)}
 a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-footer{max-width:46rem;margin:0 auto;padding:0 1rem 3rem;font-size:.85rem;color:#7d7a74}footer a{color:#a39f97}
-@media(max-width:34rem){body{font-size:16px}h1{font-size:1.6rem}}`;
+footer{max-width:46rem;margin:0 auto;padding:0 1rem 3rem;font-size:.8rem;color:#7d7a74}footer a{color:#a39f97}
+@media(max-width:34rem){h1{font-size:1.5rem}}`;
 
 function page(src, body) {
   const title = titles[src] ?? src;
