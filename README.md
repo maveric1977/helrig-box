@@ -4,50 +4,41 @@
 
 <h1 align="center">Helrig Box</h1>
 
-The Helrig Box is a small box that sits next to a Line 6 Helix or HX pedal and gives the [Helrig](https://helrig.com) apps wireless access to
-it. The pedal plugs into the box by USB, the box joins your Wi-Fi, and Helrig on your computer finds it and edits the pedal as it would over
-a cable.
-
-This repository is the box's firmware identity and its documentation. The firmware itself is
-[ToneRelay](https://github.com/mpeskett88/ToneRelay), an open-source Wi-Fi relay for Helix pedals by Mark Peskett. What makes a ToneRelay
-build a Helrig Box is a small **profile** (`profile/`): the names the box shows the network (`Helrig Box e7fb0b`, `helrigbox.local`), the
-page it serves for Wi-Fi setup, and its defaults (relay-only on). Everything else, the relay, the USB handling and the Wi-Fi code, is ToneRelay's,
-and improvements to it go back to ToneRelay.
+<p align="center">A small box that puts your Helix or HX pedal on your Wi-Fi, so <a href="https://helrig.com">Helrig</a> can edit it without a cable to your computer.</p>
 
 ```
-Helrig on your computer  ──  Wi-Fi, ws://helrigbox.local/raw  ──  Helrig Box  ──  USB  ──  Helix / HX
+Helrig on your computer  ──  Wi-Fi  ──  Helrig Box  ──  USB  ──  Helix / HX pedal
 ```
 
-The box carries the pedal's USB transfers and does not interpret them; Helrig is the only thing that speaks the pedal's protocol. The
-contract between the two is ToneRelay's `docs/raw-relay-protocol.md`.
+The pedal plugs into the box by USB, the box joins your Wi-Fi, and Helrig finds it and edits the pedal as it would over a cable. The box only carries
+the pedal's USB traffic; it does not read or change your presets itself.
 
-## What is here
+Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in Helrig needs Helrig Connect or Helrig Pro.
 
-| | |
-|---|---|
-| `profile/profile.c` | The Helrig Box's names and defaults. |
-| `profile/setup.html` | The setup and status page the box serves (about 9 KB, no network requests, the logo inline). |
-| `brand/` | The lockup SVGs and the brief the page follows. Helrig's artwork: see `NOTICE.md`. |
-| `scripts/build.sh`, `scripts/flash.sh` | Build ToneRelay with this profile; flash it, and optionally clear the box's settings. |
-| `web/` | The web flasher: a page that installs the firmware from Chrome or Edge, with no tools. |
-| `docs/build.md` | What to buy, what to install, how to build and flash. |
-| `docs/releasing.md` | How a release and the web flasher are published. |
-| `docs/setup.md` | What a new owner does, factory reset, and what has been measured. |
-| `third_party/ToneRelay` | ToneRelay's source, pinned (a submodule). |
+## Get one running
 
-## Build and flash
+1. **Get the parts.** A [Waveshare ESP32-P4-NANO](https://www.waveshare.com/wiki/ESP32-P4-NANO) board, a USB-C cable that carries data, a USB-C power source,
+   and the USB cable you use to connect your pedal to a computer. [Full list](docs/flashing.md#what-you-need).
+2. **Install the firmware** from your browser (desktop Chrome or Edge), with nothing to install: **[maveric1977.github.io/helrig-box](https://maveric1977.github.io/helrig-box/)**.
+   It takes about 2 minutes. [Step by step, drivers and troubleshooting](docs/flashing.md).
+3. **Set it up.** Join the box's own Wi-Fi network (**Helrig Box** plus six characters) on your phone, open `http://192.168.4.1`, and enter your home Wi-Fi.
+   [Setup and factory reset](docs/setup.md).
+4. **Use it.** Plug your pedal into the box's **USB-A** port, open Helrig, and pick the box in the device menu.
 
-```bash
-git submodule update --init
-. /path/to/esp-idf/export.sh        # IDF_PATH and the toolchain
-scripts/build.sh                    # or --release
-scripts/flash.sh -p /dev/ttyACM0 --fresh
-```
+The Wi-Fi is 2.4 GHz only. The box has no password of its own yet, so use it on a network you trust.
 
-`--fresh` clears the saved settings, so the box starts like a new one and raises its setup network. Power-cycle the board afterwards.
+## Questions and problems
 
-## Status
+Check [Troubleshooting](docs/flashing.md#troubleshooting) first. If that does not help, [open an issue](https://github.com/maveric1977/helrig-box/issues) and say which
+pedal, which computer and browser, and what the page or the box did.
 
-Built and tried on an ESP32-P4-NANO (Waveshare) with a Helix LT and an HX Stomp. The Helrig apps' support for the box is in
-[the Helrig repository](https://github.com/maveric1977/helrig) (private). The ToneRelay changes this depends on (the relay, the profile
-mechanism and the fixes) are going upstream; until they are merged, `third_party/ToneRelay` points at a fork.
+## For developers
+
+The firmware is [ToneRelay](https://github.com/mpeskett88/ToneRelay), an open-source Wi-Fi relay for Helix pedals by Mark Peskett, built with a small
+Helrig Box profile (its names, setup page and defaults). This repository holds that profile, the web flasher and the docs.
+[How it fits together](docs/dev/architecture.md) · [Build from source](docs/dev/build.md) · [Releasing](docs/dev/releasing.md) · [What has been measured](docs/dev/measurements.md)
+
+## Licence
+
+The code and docs are MIT ([LICENSE](LICENSE)). The Helrig name, the Helrig Box logo and the icon are Helrig's and are not covered by it; see
+[NOTICE.md](NOTICE.md), which also lists the other software used. Helrig and the Helrig Box are not affiliated with Line 6 or Yamaha Guitar Group.

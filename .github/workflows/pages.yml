@@ -1,5 +1,5 @@
 # Publishes web/ (the web flasher) to GitHub Pages, with the firmware parts from the latest release.
-# The firmware is built on a maintainer's machine (docs/releasing.md) and attached to a release as helrig-box-web-firmware.zip: the page has to
+# The firmware is built on a maintainer's machine (docs/dev/releasing.md) and attached to a release as helrig-box-web-firmware.zip: the page has to
 # fetch it from its own origin, and release downloads do not send the headers a cross-origin fetch needs.
 name: Publish web flasher
 
