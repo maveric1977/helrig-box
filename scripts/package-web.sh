@@ -6,7 +6,7 @@
 #
 # The parts are the bootloader (0x2000), the partition table (0x8000) and the app (0x10000). The settings (NVS, 0x9000), the radio data (0xf000) and the
 # catalog partition are left alone, so a web update keeps the saved Wi-Fi network.
-# Needs espflash and python3. The .bin files are not committed (see .gitignore); a release uploads web/firmware as a zip and the Pages workflow publishes it.
+# Needs espflash and python3. The .bin files are not committed (see .gitignore); a release uploads web/firmware as a zip and the Vercel build fetches it (web/fetch-firmware.sh).
 set -euo pipefail
 
 HERE="$(cd "$(dirname "$0")/.." && pwd)"

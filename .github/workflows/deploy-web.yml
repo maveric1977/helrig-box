@@ -1,0 +1,20 @@
+# Tells Vercel to redeploy the web flasher when a release is published.
+# Vercel's own Git integration deploys on pushes; a release does not push, so this calls the project's deploy hook. The Vercel build then fetches the
+# release's helrig-box-web-firmware.zip (web/fetch-firmware.sh). Setup: docs/dev/releasing.md.
+name: Deploy web flasher
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  hook:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call the Vercel deploy hook
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          test -n "$HOOK" || { echo "Secret VERCEL_DEPLOY_HOOK_URL is not set (docs/dev/releasing.md)." >&2; exit 1; }
+          curl -fsS -X POST "$HOOK"

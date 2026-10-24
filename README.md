@@ -19,7 +19,7 @@ Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in H
 
 1. **Get the parts.** A [Waveshare ESP32-P4-NANO](https://www.waveshare.com/wiki/ESP32-P4-NANO) board, a USB-C cable that carries data, a USB-C power source,
    and the USB cable you use to connect your pedal to a computer. [Full list](docs/flashing.md#what-you-need).
-2. **Install the firmware** from your browser (desktop Chrome or Edge), with nothing to install: **[maveric1977.github.io/helrig-box](https://maveric1977.github.io/helrig-box/)**.
+2. **Install the firmware** from your browser (desktop Chrome or Edge), with nothing to install: **[flash.helrig.com](https://flash.helrig.com)**.
    It takes about 2 minutes. [Step by step, drivers and troubleshooting](docs/flashing.md).
 3. **Set it up.** Join the box's own Wi-Fi network (**Helrig Box** plus six characters) on your phone, open `http://192.168.4.1`, and enter your home Wi-Fi.
    [Setup and factory reset](docs/setup.md).
