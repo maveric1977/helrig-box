@@ -17,6 +17,26 @@ in ToneRelay's firmware is written for this board.
 ToneRelay's notes say the board's USB-C port is the UART programming port, and that it must show up as a serial device before flashing. The
 pedal goes into the **USB-A** port. Check Waveshare's wiki for the port labels on your revision.
 
+## Drivers
+
+The board's USB-C UART port is a WCH CH343 (`1a86:55d3`, "USB Single Serial") that shows up as a standard USB serial device, so none of the three
+systems needs a vendor driver. What was seen, with the board on each:
+
+| System | What happened | |
+|---|---|---|
+| macOS | `/dev/cu.usbmodem...`, bound by Apple's own `AppleUSBACMData`; no WCH driver was installed | measured |
+| Windows 11 (VM, online) | "USB Serial Device (COM3)", driver Microsoft `usbser`, version 10.0.26100.x, signed by Microsoft Windows | measured; offline not tried; other Windows versions not tried |
+| Linux (Ubuntu VM) | `/dev/ttyACM0`, owned by `root:dialout` (mode 660), created by the kernel's own `cdc_acm` module; no driver install | measured |
+
+**Linux:** your user must be allowed to open the port, which usually means the `dialout` group:
+
+```bash
+sudo usermod -aG dialout $USER     # then log out and back in
+```
+
+On the Ubuntu VM the user was not in that group, so flashing from it would have failed with a permission error. A Linux desktop with ModemManager
+running can also grab a new serial port for a few seconds; if the flash cannot connect, try again. [Not seen here.]
+
 ## What you need on the computer
 
 - **ESP-IDF v5.5.3** ([Espressif's install guide](https://docs.espressif.com/projects/esp-idf/en/v5.5.3/esp32p4/get-started/)), with its `export.sh`
