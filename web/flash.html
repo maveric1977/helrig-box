@@ -17,6 +17,8 @@
   a { color:var(--accent); }
   code { background:#222; border-radius:4px; padding:.05em .35em; font-size:.9em; }
   .muted { color:var(--muted); font-size:.875rem; }
+  .latest { margin:-.9rem 0 1.4rem; color:var(--muted); font-size:.875rem; }
+  .latest strong { color:var(--text); font-weight:600; }
 
   .step { display:flex; gap:1rem; align-items:flex-start; background:var(--panel); border:1px solid var(--line); border-radius:calc(var(--radius) * 1.6); padding:1rem 1.1rem; margin:.75rem 0; }
   .num { flex:none; width:2.1rem; height:2.1rem; border-radius:50%; background:var(--accent); color:#0a0a0a; font-weight:700; display:grid; place-items:center; }
@@ -55,6 +57,7 @@
 <main>
   <nav class="top"><a href="/">Helrig Box</a> <a href="/docs/flashing">Guide</a> <a href="/docs/setup">Setup</a></nav>
   <h1><img src="/icon.svg" alt=""> Install the Helrig Box firmware</h1>
+  <p class="latest" id="latest">Latest firmware: <strong id="version">…</strong> <span id="notes"></span></p>
 
   <div id="unsupported">
     <strong>Open this page in desktop Chrome or Edge.</strong><br>
@@ -112,7 +115,7 @@
   <details>
     <summary>Options</summary>
     <label><input type="checkbox" id="fresh"> <span>Start as a new box: also forget the saved Wi-Fi. Leave this off to update a box and keep its Wi-Fi.</span></label>
-    <p class="muted">Version <span id="version">…</span>. <a href="#" id="showlog">Show details</a></p>
+    <p class="muted"><a href="#" id="showlog">Show details</a></p>
     <div id="log"></div>
   </details>
 
@@ -150,6 +153,13 @@ async function loadManifest() {
     if (!r.ok) throw new Error("HTTP " + r.status);
     manifest = await r.json();
     $("version").textContent = manifest.version;
+    // Link the release notes when this is a real release (a tag like v0.1.1), not a build from an untagged commit.
+    if (/^v\d+\.\d+\.\d+$/.test(manifest.version)) {
+      const a = document.createElement("a");
+      a.href = "https://github.com/maveric1977/helrig-box/releases/tag/" + manifest.version;
+      a.textContent = "release notes"; a.target = "_blank"; a.rel = "noopener noreferrer";
+      $("notes").append("· ", a);
+    }
     go.disabled = !("serial" in navigator);
   } catch (e) {
     $("version").textContent = "not available";
