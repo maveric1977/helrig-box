@@ -44,6 +44,11 @@
       "source": "/docs/",
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/flash.template",
+      "destination": "/flash",
+      "permanent": false
     }
   ]
 }
