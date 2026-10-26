@@ -151,12 +151,25 @@ async function join() {
     $('join').disabled = false
     return
   }
+  let silent = 0
   for (let i = 0; i < 30; i++) {
     await wait(1500)
     let j
     try {
       j = await status()
+      silent = 0
     } catch (e) {
+      // Opened over the box's address on a network it has just left, this page cannot follow it: it can only stop hearing from it.
+      if (++silent >= 8) {
+        $('msg').textContent =
+          'The box has stopped answering here. That is what happens when it moves to ' +
+          ssid +
+          ': this page cannot follow it. Join ' +
+          ssid +
+          ' on this device too, or use your usual Wi-Fi, then open Helrig. The box shows up there if it joined.'
+        $('join').disabled = false
+        return
+      }
       continue
     }
     if (j.sta && j.ssid === ssid) {
