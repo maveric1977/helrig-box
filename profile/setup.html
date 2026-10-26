@@ -23,6 +23,10 @@
   button { background: #FFD23F; color: #0a0a0a; border: 0; font-weight: 700; cursor: pointer; }
   button.quiet { background: transparent; color: #FFD23F; border: 1px solid #6b6b6b; font-weight: 400; }
   button:disabled { opacity: .5; cursor: default; }
+  ul.saved { list-style: none; margin: .5rem 0; padding: 0; }
+  ul.saved li { display: flex; align-items: center; gap: .5rem; min-height: 44px; border-top: 1px solid #2a2a2a; }
+  ul.saved li span { flex: 1; overflow-wrap: anywhere; }
+  ul.saved button { width: auto; padding: 0 .9rem; margin: 0; }
   code { background: #151515; padding: .1rem .35rem; border-radius: .25rem; }
   [hidden] { display: none; }
 </style>
@@ -40,6 +44,10 @@
     <button id="join">Connect</button>
     <button id="scan" class="quiet">Look for networks again</button>
     <p id="msg" class="muted" role="status"></p>
+    <div id="savedwrap" hidden>
+      <p class="muted">Saved on the box. It joins the one that is in range, and keeps up to three.</p>
+      <ul class="saved" id="saved-setup"></ul>
+    </div>
   </section>
 
   <section id="done" hidden>
@@ -47,7 +55,11 @@
     <p>Open Helrig on your computer. It finds the box by itself. Then plug your pedal into the box.</p>
     <p class="muted">Its address on your network: <code id="ip"></code></p>
     <p class="muted">If this page is open on your phone, you can switch it back to your usual Wi-Fi now. The box's own network switches off 45 seconds after it is connected; your phone may keep listing its name for a few minutes.</p>
-    <button id="change" class="quiet">Use another network</button>
+    <div id="savedwrap-done" hidden>
+      <p class="muted">Saved on the box. It joins the one that is in range, and keeps up to three.</p>
+      <ul class="saved" id="saved-done"></ul>
+    </div>
+    <button id="change" class="quiet">Add or change a network</button>
   </section>
 </main>
 <script>
@@ -83,9 +95,48 @@ async function scan() {
   $('scan').disabled = false
 }
 
+function renderSaved(j) {
+  const names = Array.isArray(j.saved) ? j.saved : []
+  for (const [list, wrap] of [['saved-setup', 'savedwrap'], ['saved-done', 'savedwrap-done']]) {
+    $(wrap).hidden = names.length === 0
+    $(list).replaceChildren(
+      ...names.map((name) => {
+        const li = document.createElement('li')
+        const label = document.createElement('span')
+        label.textContent = name + (name === j.ssid && j.sta ? ' (in use)' : '')
+        const b = document.createElement('button')
+        b.className = 'quiet'
+        b.textContent = 'Forget'
+        b.setAttribute('aria-label', 'Forget ' + name)
+        b.onclick = () => void forget(name)
+        li.append(label, b)
+        return li
+      }),
+    )
+  }
+}
+
+async function forget(ssid) {
+  $('msg').textContent = ''
+  try {
+    await api({ op: 'wifi_forget', ssid })
+  } catch (e) {
+    // The box may drop this page's own connection when the network in use is the one forgotten.
+  }
+  await wait(1500)
+  try {
+    const j = await status()
+    if (!j.sta) show('setup')
+  } catch (e) {
+    show('setup')
+    $('msg').textContent = 'The box is switching network. If this page stops answering, join the box\'s own network again.'
+  }
+}
+
 async function status() {
   const j = await api({ op: 'wifi_status' })
   if (j.ap) $('id').textContent = String(j.ap).split(/[\s-]+/).pop()
+  renderSaved(j)
   return j
 }
 
@@ -108,10 +159,16 @@ async function join() {
     } catch (e) {
       continue
     }
-    if (j.sta) {
+    if (j.sta && j.ssid === ssid) {
       $('ssid').textContent = j.ssid
       $('ip').textContent = j.ip
       show('done')
+      $('join').disabled = false
+      return
+    }
+    if (j.sta) {
+      // Connected, but to another saved network: the box went back after this one failed.
+      $('msg').textContent = 'The box could not connect to ' + ssid + ', so it is on ' + j.ssid + ' again. Check the password and try again.'
       $('join').disabled = false
       return
     }
