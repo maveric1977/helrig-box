@@ -61,7 +61,8 @@ The inlays are required in this orientation. Without them the symbol recess woul
 
 - The prime tower and purging add noticeable time and waste with 4 or more filaments.
 - The wordmark sits on the vertical walls, so it needs a real multi-material print; a layer-based colour change cannot do it.
-- The files are checked for orientation, volumes and clearances: the lid plus the five inlays add up to the original lid volume exactly. They have not been sliced or printed yet. Check the first layers in the preview, and print a test first.
+- The files are checked for orientation, volumes and clearances: the lid plus the five inlays add up to the original lid volume exactly. Check the first layers in the preview, and print a test first.
+- Tested on a single-colour printer (Bambu Lab A1 mini): every part was printed in one filament and the inlays were glued into the lid recesses with instant glue. The multi-material print itself (AMS lite, prime tower) has not been tried yet.
 
 ## Licence
 

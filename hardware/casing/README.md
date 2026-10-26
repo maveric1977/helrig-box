@@ -15,7 +15,7 @@ There are two variants. They are the same shape; they differ in how the branding
 | Files | 2 STLs: lid and bottom | 7 STLs: lid, bottom and 5 inlays |
 | Lid orientation | top face up, with supports | top face down on the bed, no supports |
 | Effort | one filament, a pen and a few minutes | prime tower, longer print, more waste |
-| Tested | not printed yet | not printed yet |
+| Tested | not printed yet | printed on a single-colour printer (Bambu Lab A1 mini), inlays glued in; not tried multi-material yet |
 
 **Not sure which?** Use the single-colour variant. It works on any printer, and the recess holds the paint.
 
