@@ -37,13 +37,105 @@ const sources = ["README.md"];
 const isIndex = src => posix.basename(src) === "README.md";
 const urlOf = src => isIndex(src) ? (posix.dirname(src) === "." ? "/" : "/" + posix.dirname(src) + "/") : "/" + src.replace(/\.md$/, "");
 const fileOf = src => isIndex(src) ? join(WEB, posix.dirname(src) === "." ? "" : posix.dirname(src), "index.html") : join(WEB, src.replace(/\.md$/, ".html"));
-const titles = {
-  "README.md": "Overview", "docs/flashing.md": "Install the firmware", "docs/setup.md": "Set up a Helrig Box",
-  "docs/dev/architecture.md": "How it fits together", "docs/dev/build.md": "Build from source", "docs/dev/releasing.md": "Releasing",
+// Each page's <title> and meta description. `title` is the full <title>; pages without `full` get " · Helrig Box" appended.
+// og: overrides the social card's title/description (the Overview has its own wording). Pages not listed keep `legacy` and the fallback description.
+const SUFFIX = " · Helrig Box";
+const FALLBACK_DESCRIPTION = "A small DIY box that puts your Line 6 Helix or HX on your Wi-Fi for the Helrig apps.";
+const pages = {
+  "README.md": {
+    title: "Helrig Box: put your Helix or HX on Wi-Fi (DIY build)", full: true,
+    description: "Build a small box that puts your Line 6 Helix or HX on Wi-Fi, so the Helrig apps edit it without a cable. Waveshare board, browser flasher, 3D-printed case.",
+    og: { title: "Helrig Box: your pedal, on your Wi-Fi", description: "A DIY box that puts your Helix or HX on your Wi-Fi. Flash it from your browser in about 2 minutes, print the case, and edit your pedal from the Helrig apps." },
+  },
+  "flash.template.html": {
+    title: "Install the Helrig Box firmware in your browser", full: true,
+    description: "Flash the Helrig Box firmware onto a Waveshare ESP32-P4-NANO from desktop Chrome or Edge. Nothing to install, about 2 minutes.",
+  },
+  "docs/flashing.md": {
+    title: "Install the firmware: step by step",
+    description: "What you need, how to flash the ESP32-P4-NANO from your browser, USB drivers, and what to do when flashing fails.",
+  },
+  "docs/setup.md": {
+    title: "Set up a Helrig Box on your Wi-Fi",
+    description: "Join the box's own Wi-Fi, enter your home network, connect your pedal and find the box in Helrig. Includes factory reset. 2.4 GHz only.",
+  },
+  "hardware/casing/README.md": {
+    title: "3D-printable case for the Helrig Box", full: true,
+    description: "STL files for a Helrig Box case in single colour or multi colour, sized for the Waveshare ESP32-P4-NANO. M2×7 screws, CC BY 4.0.",
+  },
+  "docs/dev/architecture.md": {
+    title: "How the Helrig Box works: ToneRelay and Helrig",
+    description: "How the Helrig Box relays a Helix pedal's USB traffic over Wi-Fi with ToneRelay, what Helrig handles, and how to build the firmware from source.",
+  },
+};
+const legacyTitles = {
+  "docs/dev/build.md": "Build from source", "docs/dev/releasing.md": "Releasing",
   "docs/dev/measurements.md": "What has been measured", "docs/dev/setup-page.md": "The setup page",
-  "hardware/casing/README.md": "3D-printable case", "hardware/casing/ATTRIBUTION.md": "Case attribution",
+  "hardware/casing/ATTRIBUTION.md": "Case attribution",
   "hardware/casing/single-colour/README.md": "Case: single colour", "hardware/casing/multi-colour/README.md": "Case: multi colour",
 };
+
+// Titles stay within 60 characters and descriptions within 165, so search results and link previews don't cut them off.
+const MAX_TITLE = 60, MAX_DESCRIPTION = 165;
+function meta(src) {
+  const p = pages[src] ?? { title: legacyTitles[src] ?? src, description: FALLBACK_DESCRIPTION };
+  const title = p.full ? p.title : p.title + SUFFIX;
+  return {
+    title,
+    description: p.description,
+    ogTitle: p.og?.title ?? (title.endsWith(SUFFIX) ? title.slice(0, -SUFFIX.length) : title),
+    ogDescription: p.og?.description ?? p.description,
+  };
+}
+const tooLong = [];
+for (const src of [...sources, "flash.template.html"]) {
+  const m = meta(src);
+  if (m.title.length > MAX_TITLE) tooLong.push(`${src}: title is ${m.title.length} characters (limit ${MAX_TITLE})`);
+  if (m.description.length > MAX_DESCRIPTION) tooLong.push(`${src}: description is ${m.description.length} characters (limit ${MAX_DESCRIPTION})`);
+}
+if (tooLong.length) { console.error("build-docs: " + tooLong.join("\nbuild-docs: ")); process.exit(1); }
+
+// The <head> tags every page shares, docs and flasher alike: title, description, canonical, icons, theme colour, Open Graph and Twitter.
+const ORIGIN = "https://box.helrig.com";
+const THEME_COLOR = "#060406";   // --bg in site.css
+const OG_IMAGE_ALT = "The Helrig Box, a small black case with the Helrig logo, next to the words Helrig Box";
+// Brand exports made in Figma. Each is linked only once its file is in brand/, so no tag points at a missing file.
+const EXPORTS = ["og.png", "favicon.ico", "apple-touch-icon.png", "icon-192.png", "icon-512.png"];
+const have = Object.fromEntries(EXPORTS.map(f => [f, existsSync(join(ROOT, "brand", f))]));
+function headTags(src, url) {
+  const m = meta(src), abs = ORIGIN + url;
+  const tags = [
+    `<title>${esc(m.title)}</title>`,
+    `<meta name="description" content="${esc(m.description)}">`,
+    `<link rel="canonical" href="${abs}">`,
+    have["favicon.ico"] && `<link rel="icon" href="/favicon.ico" sizes="32x32">`,
+    `<link rel="icon" href="/icon.svg" type="image/svg+xml">`,
+    have["apple-touch-icon.png"] && `<link rel="apple-touch-icon" href="/apple-touch-icon.png">`,
+    have["icon-192.png"] && have["icon-512.png"] && `<link rel="manifest" href="/site.webmanifest">`,
+    `<meta name="theme-color" content="${THEME_COLOR}">`,
+    `<meta property="og:type" content="website">`,
+    `<meta property="og:site_name" content="Helrig Box">`,
+    `<meta property="og:url" content="${abs}">`,
+    `<meta property="og:title" content="${esc(m.ogTitle)}">`,
+    `<meta property="og:description" content="${esc(m.ogDescription)}">`,
+    have["og.png"] && `<meta property="og:image" content="${ORIGIN}/og.png">`,
+    have["og.png"] && `<meta property="og:image:width" content="1200">`,
+    have["og.png"] && `<meta property="og:image:height" content="630">`,
+    have["og.png"] && `<meta property="og:image:alt" content="${esc(OG_IMAGE_ALT)}">`,
+    `<meta name="twitter:card" content="summary_large_image">`,
+  ];
+  return tags.filter(Boolean).join("\n");
+}
+
+// Copies the brand exports that exist next to the site, and writes the manifest when both its icons exist.
+for (const f of EXPORTS) if (have[f]) copyFileSync(join(ROOT, "brand", f), join(WEB, f));
+if (have["icon-192.png"] && have["icon-512.png"]) {
+  writeFileSync(join(WEB, "site.webmanifest"), JSON.stringify({
+    name: "Helrig Box", short_name: "Helrig Box", display: "browser",
+    theme_color: THEME_COLOR, background_color: THEME_COLOR,
+    icons: [{ src: "/icon-192.png", sizes: "192x192", type: "image/png" }, { src: "/icon-512.png", sizes: "512x512", type: "image/png" }],
+  }, null, 2) + "\n");
+}
 
 const slug = s => s.toLowerCase().replace(/<[^>]+>/g, "").replace(/[^a-z0-9 _-]/g, "").trim().replace(/ /g, "-");
 const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
@@ -126,10 +218,10 @@ function externalInNewTab(html) {
 }
 
 function page(src, body) {
-  const title = titles[src] ?? src;
   return `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(title)} · Helrig Box</title><link rel="icon" href="/icon.svg"><link rel="stylesheet" href="/site.css"><style>${CSS}</style></head>
+${headTags(src, urlOf(src))}
+<link rel="stylesheet" href="/site.css"><style>${CSS}</style></head>
 <body>${header(urlOf(src))}
 <main>${body}</main>
 <footer>Source: <a href="${GITHUB}${src}">${esc(src)}</a> on GitHub.</footer></body></html>
@@ -147,6 +239,6 @@ for (const src of sources) {
 // The flasher page is a template (flash.template.html) so it gets the same navbar as the docs.
 const tpl = join(WEB, "flash.template.html");
 if (existsSync(tpl)) {
-  writeFileSync(join(WEB, "flash.html"), readFileSync(tpl, "utf8").replace("<!--HEADER-->", header("/flash")));
+  writeFileSync(join(WEB, "flash.html"), readFileSync(tpl, "utf8").replace("<!--HEAD-->", headTags("flash.template.html", "/flash")).replace("<!--HEADER-->", header("/flash")));
   console.log("build-docs: flash.template.html -> flash.html");
 }
