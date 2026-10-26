@@ -12,3 +12,11 @@ web/index.html
 web/brand/
 web/hardware/
 web/flash.html
+
+# brand exports copied next to the site by web/build-docs.mjs
+web/og.png
+web/favicon.ico
+web/apple-touch-icon.png
+web/icon-192.png
+web/icon-512.png
+web/site.webmanifest
