@@ -2,6 +2,8 @@
 
 3D-printable case for the Helrig Box: a Waveshare ESP32-P4-NANO that plugs into a Line 6 Helix/HX pedal over USB and relays it over Wi-Fi.
 
+![The finished Helrig Box: a small black 3D-printed case with the four-colour Helrig symbol on top and HELRIG in white on the side](helrig-box-photo.webp)
+
 The case is a lid and a bottom. The lid has a closed top with one window for the Ethernet jack, and openings in the front wall for the USB ports. It carries the Helrig branding: the symbol is debossed 0.6 mm into the top, and the wordmark is debossed 0.6 mm into the left and right walls. The bottom is the original, unchanged part.
 
 Uses M2×7 screws.

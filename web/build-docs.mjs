@@ -149,7 +149,7 @@ function fix(href, from) {
   if (!pathPart) return href;
   const target = posix.normalize(posix.join(posix.dirname(from), pathPart));
   if (target === "brand/helrig-box-icon.svg") return "/icon.svg";
-  if (/^(brand|hardware)\/.+\.(svg|png)$/.test(target) && existsSync(join(ROOT, target))) {   // images the docs show: copy them next to the site
+  if (/^(brand|hardware)\/.+\.(svg|png|webp)$/.test(target) && existsSync(join(ROOT, target))) {   // images the docs show: copy them next to the site
     mkdirSync(dirname(join(WEB, target)), { recursive: true });
     copyFileSync(join(ROOT, target), join(WEB, target));
     return "/" + target + frag;
