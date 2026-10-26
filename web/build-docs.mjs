@@ -123,6 +123,7 @@ function headTags(src, url) {
     have["og.png"] && `<meta property="og:image:height" content="630">`,
     have["og.png"] && `<meta property="og:image:alt" content="${esc(OG_IMAGE_ALT)}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
+    have["og.png"] && `<meta name="twitter:image" content="${ORIGIN}/og.png">`,
   ];
   return tags.filter(Boolean).join("\n");
 }
