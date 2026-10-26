@@ -2,7 +2,7 @@
 
 3D-printable case for the Helrig Box: a Waveshare ESP32-P4-NANO that plugs into a Line 6 Helix/HX pedal over USB and relays it over Wi-Fi.
 
-The case is a lid and a bottom. The lid carries the Helrig branding: the symbol is debossed 0.6 mm into the top, and the wordmark is debossed 0.6 mm into the left and right walls. The bottom is the original, unchanged part.
+The case is a lid and a bottom. The lid has a closed top with one window for the Ethernet jack, and openings in the front wall for the USB ports. It carries the Helrig branding: the symbol is debossed 0.6 mm into the top, and the wordmark is debossed 0.6 mm into the left and right walls. The bottom is the original, unchanged part.
 
 Uses M2×7 screws.
 
@@ -10,7 +10,7 @@ There are two variants. They are the same shape; they differ in how the branding
 
 | | [Single colour](single-colour/) | [Multi colour](multi-colour/) |
 |---|---|---|
-| Printer | any FDM printer (made for Bambu Lab A1 mini) | multi-material printer, 4 filaments (made for Bambu Lab A1 with AMS lite) |
+| Printer | any FDM printer (made for Bambu Lab A1 mini) | multi-material printer (made for Bambu Lab A1 with AMS lite) |
 | Branding | recessed, painted by hand | recessed, filled by printed inlays in brand colours |
 | Files | 2 STLs: lid and bottom | 7 STLs: lid, bottom and 5 inlays |
 | Lid orientation | top face up, with supports | top face down on the bed, no supports |

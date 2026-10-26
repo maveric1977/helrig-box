@@ -1,10 +1,10 @@
 # Multi-colour variant
 
-The branding is printed in colour: the four symbol tiles in the brand colours and the wordmark in white. The recesses in the lid are filled by separate inlay parts that fit them exactly. Set up for a Bambu Lab A1 with AMS lite (4 filaments); other multi-material printers work the same way.
-
-![Lid, angled](previews/lid-angled-right.png)
+The branding is printed in colour: the four symbol tiles in the brand colours and the wordmark in white, on a dark lid. The recesses in the lid are filled by separate inlay parts that fit them exactly. Set up for a Bambu Lab A1 with AMS lite (4 filaments); other multi-material printers work the same way.
 
 Uses M2×7 screws.
+
+![Lid, angled](previews/lid-angled-right.png)
 
 ## Files
 
@@ -19,6 +19,8 @@ Uses M2×7 screws.
 | [`stl/helrig-box_bottom.stl`](stl/helrig-box_bottom.stl) | the original bottom, floor down, no branding |
 
 The lid and the five inlays share one coordinate system and must stay together. The bottom is a separate print.
+
+The lid top is closed except for one window at the back for the Ethernet jack. The front wall has the USB openings.
 
 ## Previews
 
@@ -51,13 +53,13 @@ The inlays are required in this orientation. Without them the symbol recess woul
    | 3 | blue and teal tiles | blue |
    | 4 | orange and pink tiles | orange |
 
-   This pairs the tiles diagonally. The brand has 4 tile colours and the AMS lite holds 4 filaments in total, so the lid and wordmark take two slots. To use all four tile colours you need a 6-filament setup, or print the tiles in one colour.
+   This pairs the tiles diagonally. The full look (dark lid, white wordmark, four tile colours) needs 6 filaments, and the AMS lite holds 4. On a printer with 6 or more filament slots, give every part its own colour.
 4. **Settings:** wall loops 3 or more, top/bottom 5 layers, prime tower on. The inlays are 0.6 mm = 3 layers at 0.2 mm, so keep 0.2 mm layers.
 5. **Bottom:** print it separately, flat on its floor, in black. About 350 mm² of small overhangs and chamfers; try without supports first.
 
 ## Notes
 
-- The prime tower and purging add noticeable time and waste with 4 filaments.
+- The prime tower and purging add noticeable time and waste with 4 or more filaments.
 - The wordmark sits on the vertical walls, so it needs a real multi-material print; a layer-based colour change cannot do it.
 - The files are checked for orientation, volumes and clearances: the lid plus the five inlays add up to the original lid volume exactly. They have not been sliced or printed yet. Check the first layers in the preview, and print a test first.
 

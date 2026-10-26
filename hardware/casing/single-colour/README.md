@@ -2,9 +2,9 @@
 
 One filament, branding painted by hand. Works on any FDM printer; the files and settings here are set up for a Bambu Lab A1 mini.
 
-![Lid, angled](previews/lid-angled-right.png)
-
 Uses M2×7 screws.
+
+![Lid, angled](previews/lid-angled-right.png)
 
 ## Files
 
@@ -12,6 +12,8 @@ Uses M2×7 screws.
 |---|---|
 | [`stl/helrig-box_lid.stl`](stl/helrig-box_lid.stl) | 55 × 55 × 14.2 mm, top face up, one body, watertight |
 | [`stl/helrig-box_bottom.stl`](stl/helrig-box_bottom.stl) | 55 × 55 × 5.6 mm, floor down; the original part, no branding |
+
+The lid top is closed except for one window at the back for the Ethernet jack. The front wall has the USB openings.
 
 ## Previews
 
@@ -34,7 +36,7 @@ The branding is a 0.6 mm recess. Flipped onto the bed, the symbol recess would b
 ## Slicer settings (Bambu Studio)
 
 1. **Printer and process:** Bambu Lab A1 mini 0.4 nozzle, 0.16 mm Optimal or 0.20 mm Standard. Filament: PLA.
-2. **Lid supports: on.** The 2 mm top plate (1425 mm²) hangs 12.2 mm above the bed, so it needs supports underneath, inside the lid. Use Tree (auto) or Normal, "On build plate only", with a small top Z distance (0.15–0.2 mm). A few small tabs inside also get support. The support marks end up inside the lid, not on the branded surface.
+2. **Lid supports: on.** The 2 mm top plate (about 1980 mm²) hangs 12.2 mm above the bed, so it needs supports underneath, inside the lid. Use Tree (auto) or Normal, "On build plate only", with a small top Z distance (0.15–0.2 mm). A few small tabs inside also get support. The support marks end up inside the lid, not on the branded surface.
 3. **Wall loops:** 3 or more. The side wordmark is only 0.6 mm deep in a 2 mm wall.
 4. **Bottom:** sits flat on its floor, no rotation. About 350 mm² of small overhangs and chamfers; try without supports first and check the preview.
 

@@ -11,12 +11,13 @@
 
 This work is an adaptation of the original. Changes:
 
-1. The lid ("top-solid"): the Helrig symbol was debossed 0.6 mm into the top face, and the Helrig wordmark was debossed 0.6 mm into the left and right side walls.
-2. The lid mesh had a sub-micron vertex mismatch (about 0.0000005 mm) and zero-area triangles. These were welded and removed so the mesh is watertight. This does not change the shape.
-3. Multi-colour variant only: extra STL parts (inlays) that exactly fill the branding recesses, and the lid is rotated top face down for printing.
-4. The bottom part is unchanged.
+1. The lid ("top-solid"): the unused openings in the top plate (the slot along the left edge, two long slots, three small windows and the slot along the right wall) were closed. The Ethernet window at the back of the lid was left open.
+2. The lid: the Helrig symbol was debossed 0.6 mm into the top face, and the Helrig wordmark was debossed 0.6 mm into the left and right side walls.
+3. The lid mesh had a sub-micron vertex mismatch (about 0.0000005 mm) and zero-area triangles. These were welded and removed so the mesh is watertight. This does not change the shape.
+4. Multi-colour variant only: extra STL parts (inlays) that exactly fill the branding recesses, and the lid is rotated top face down for printing.
+5. The bottom part is unchanged.
 
-All other geometry of the original is kept: port cutouts, board standoffs, clips and tolerances.
+All other geometry of the original is kept: the openings in the walls (USB ports, Ethernet notch), board standoffs, clips and tolerances.
 
 ## This repository
 
