@@ -57,7 +57,7 @@ const pages = {
   },
   "docs/setup.md": {
     title: "Set up a Helrig Box on your Wi-Fi",
-    description: "Join the box's own Wi-Fi, enter your home network, connect your pedal and find the box in Helrig. Includes factory reset. 2.4 GHz only.",
+    description: "Join the box's Wi-Fi, add your home network, pair your computer, and find the box in Helrig. Covers several networks and factory reset.",
   },
   "hardware/casing/README.md": {
     title: "3D-printable case for the Helrig Box", full: true,

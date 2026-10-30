@@ -12,8 +12,7 @@
 
 ![Helrig on your computer, connected over Wi-Fi to the Helrig Box, connected by USB to your Helix or HX pedal](brand/diagrams/helrig-box-diagram-dark.svg)
 
-The pedal plugs into the box by USB, the box joins your Wi-Fi, and Helrig finds it and edits the pedal as it would over a cable. The box only carries
-the pedal's USB traffic; it does not read or change your presets itself.
+The pedal plugs into the box by USB. The box joins your Wi-Fi. Helrig finds it and edits the pedal as it would over a cable. The box only passes the pedal's USB signal along. It never reads or changes your presets.
 
 Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in Helrig needs Helrig Connect or Helrig Pro.
 
@@ -23,11 +22,11 @@ Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in H
    and the USB cable you use to connect your pedal to a computer. A [3D-printable case](hardware/casing/README.md) is optional. [Full list](docs/flashing.md#what-you-need).
 2. **Install the firmware** from your browser (desktop Chrome or Edge), with nothing to install: **[box.helrig.com/flash](https://box.helrig.com/flash)**.
    It takes about 2 minutes. [Step by step, drivers and troubleshooting](docs/flashing.md).
-3. **Set it up.** Join the box's own Wi-Fi network (**Helrig Box** plus six characters) on your phone, open `http://192.168.4.1`, and enter your home Wi-Fi.
+3. **Set it up.** On your phone, join the Wi-Fi network the box makes. It is called **Helrig Box** plus six characters. Open `http://192.168.4.1` and pick your home Wi-Fi.
    [Setup and factory reset](docs/setup.md).
-4. **Use it.** Plug your pedal into the box's **USB-A** port, open Helrig, and pick the box in the device menu.
+4. **Use it.** Plug your pedal into the box's **USB-A** port, open Helrig, and pick the box in the device menu. The first time, press **Pair** in Helrig, then press **BOOT** on the board once.
 
-The Wi-Fi is 2.4 GHz only. The box keeps up to three Wi-Fi networks, and each computer or tablet pairs with it once by pressing the board's BOOT button. Pairing does not encrypt anything, so use the box on a network you trust.
+The box works on 2.4 GHz Wi-Fi only. It remembers up to three networks, so home, the rehearsal room and your phone's hotspot can all work. Each computer or tablet pairs with the box once, by pressing the BOOT button on the board. Pairing needs Helrig 1.5.3 or later. It does not encrypt the traffic, so use the box on a network you trust.
 
 ## Questions and problems
 

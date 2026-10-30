@@ -38,25 +38,25 @@
   <h1>Wi-Fi setup <span id="id"></span></h1>
 
   <section id="setup" hidden>
-    <p>Choose your Wi-Fi network. The box can only use 2.4&nbsp;GHz networks.</p>
+    <p>Pick your Wi-Fi network. The box only works on 2.4&nbsp;GHz, so a 5&nbsp;GHz network will not be in the list.</p>
     <select id="net" aria-label="Wi-Fi network"></select>
     <input id="pass" type="password" placeholder="Wi-Fi password" autocomplete="off" autocapitalize="off" spellcheck="false">
     <button id="join">Connect</button>
-    <button id="scan" class="quiet">Look for networks again</button>
+    <button id="scan" class="quiet">Scan again</button>
     <p id="msg" class="muted" role="status"></p>
     <div id="savedwrap" hidden>
-      <p class="muted">Saved on the box. It joins the one that is in range, and keeps up to three.</p>
+      <p class="muted">Saved on the box, up to three. It joins whichever one is in range.</p>
       <ul class="saved" id="saved-setup"></ul>
     </div>
   </section>
 
   <section id="done" hidden>
     <p>Your Helrig Box is on <b id="ssid"></b>.</p>
-    <p>Open Helrig on your computer. It finds the box by itself. Then plug your pedal into the box.</p>
+    <p>Open Helrig on your computer and choose the box. Plug your pedal into the box. The first time, Helrig asks you to pair: press <b>Pair</b>, then press <b>BOOT</b> on the board once.</p>
     <p class="muted">Its address on your network: <code id="ip"></code></p>
-    <p class="muted">If this page is open on your phone, you can switch it back to your usual Wi-Fi now. The box's own network switches off 45 seconds after it is connected; your phone may keep listing its name for a few minutes.</p>
+    <p class="muted">You can put your phone back on your usual Wi-Fi now. The box's own network switches off 45 seconds after it connects. Your phone may keep showing its name for a few minutes.</p>
     <div id="savedwrap-done" hidden>
-      <p class="muted">Saved on the box. It joins the one that is in range, and keeps up to three.</p>
+      <p class="muted">Saved on the box, up to three. It joins whichever one is in range.</p>
       <ul class="saved" id="saved-done"></ul>
     </div>
     <button id="change" class="quiet">Add or change a network</button>
@@ -162,11 +162,11 @@ async function join() {
       // Opened over the box's address on a network it has just left, this page cannot follow it: it can only stop hearing from it.
       if (++silent >= 8) {
         $('msg').textContent =
-          'The box has stopped answering here. That is what happens when it moves to ' +
+          'This page can\'t follow the box to ' +
           ssid +
-          ': this page cannot follow it. Join ' +
+          ', so it has stopped answering. That is normal. Put this device on ' +
           ssid +
-          ' on this device too, or use your usual Wi-Fi, then open Helrig. The box shows up there if it joined.'
+          ', or on your usual Wi-Fi, then open Helrig. If the box joined, Helrig will find it.'
         $('join').disabled = false
         return
       }

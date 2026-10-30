@@ -65,7 +65,7 @@
     <div class="num">1</div>
     <div>
       <h2>Plug the board into this computer</h2>
-      <p>Use the board's <strong>USB-C</strong> port (not the USB-A one) and a cable that carries data.</p>
+      <p>Use the board's <strong>UART USB-C</strong> port (not the USB-A one) and a cable that carries data.</p>
     </div>
   </div>
 
@@ -101,7 +101,7 @@
   <details>
     <summary>Having trouble?</summary>
     <ul>
-      <li>Nothing in the list: try another cable, or unplug and replug the board.</li>
+      <li>No port in the list? Try another cable (it must carry data), or unplug and replug the board.</li>
       <li>Cannot connect: hold <strong>BOOT</strong>, tap <strong>RESET</strong>, release <strong>BOOT</strong>, then press Install again.</li>
       <li>Close any program that is using the board's serial port.</li>
       <li>Linux: your user must be in the <code>dialout</code> group.</li>
@@ -110,8 +110,8 @@
   </details>
 
   <details>
-    <summary>Options</summary>
-    <label><input type="checkbox" id="fresh"> <span>Start as a new box: also forget the saved Wi-Fi networks and pairings. Leave this off to update a box and keep them.</span></label>
+    <summary>Options: start as a new box</summary>
+    <label><input type="checkbox" id="fresh"> <span>Also erase the saved Wi-Fi networks and pairings, so you set the box up from scratch. Leave this off to update a box and keep everything.</span></label>
     <p class="muted"><a href="#" id="showlog">Show details</a></p>
     <div id="log"></div>
   </details>
@@ -119,7 +119,7 @@
   <footer>
     Firmware: <a href="https://github.com/mpeskett88/ToneRelay">ToneRelay</a> (MIT) with the Helrig Box profile, from <a href="https://github.com/maveric1977/helrig-box">helrig-box</a>.
     Flashing uses <a href="https://github.com/espressif/esptool-js">esptool-js</a> (Apache-2.0). Helrig and the Helrig Box logo are Helrig's.
-    Nothing leaves this page: it talks only to your board.
+    Nothing from your computer is sent anywhere. The page only downloads the firmware and talks to your board.
   </footer>
 </main>
 
@@ -224,7 +224,7 @@ async function install() {
     for (const p of manifest.parts) {
       const data = new Uint8Array(await (await fetch("/firmware/" + p.file, { cache: "no-cache" })).arrayBuffer());
       if (data.length !== p.size || hex(await crypto.subtle.digest("SHA-256", data)) !== p.sha256)
-        throw new Error(p.file + " does not match its checksum. Nothing was written.");
+        throw new Error("A firmware file is damaged or incomplete (" + p.file + " failed its check). Nothing was written. Reload the page and try again.");
       fileArray.push({ data, address: p.offset });
     }
     if ($("fresh").checked) fileArray.push({ data: new Uint8Array(NVS.size).fill(0xff), address: NVS.address });
@@ -255,10 +255,10 @@ async function install() {
     log("Start-up result: " + JSON.stringify(result));
     if (result && result.kind === "joined") {
       say("Done. The board is running.", "ok");
-      setNext("All set", "Your box joined " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi") + " and is at " + result.ip + ". Open Helrig and choose the box in the device menu.");
+      setNext("All set", "Your box joined " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi") + " and is at " + result.ip + ". Open Helrig and choose the box in the device menu. The first time, press Pair, then press BOOT on the board once.");
     } else if (result && result.kind === "nojoin") {
       say("Installed. The board is running, but it is not on your Wi-Fi.", "bad");
-      setNext("The box cannot join " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi"), "Check that the network is on and 2.4 GHz, and that the box is near the router. To set it up again, hold the board's BOOT button for 5 seconds, then join the “Helrig Box” network on your phone and open 192.168.4.1.");
+      setNext("The box cannot join " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi"), "Check that the network is on and is 2.4 GHz, and move the box closer to the router. To start the Wi-Fi setup again, hold the board's BOOT button for 5 seconds. That is a factory reset: it erases the saved networks and every pairing. Then join the “Helrig Box” network on your phone and open 192.168.4.1.");
     } else if (result && result.kind === "setup") {
       say("Done. The board is running.", "ok");
       setNext("Next: connect it to your Wi-Fi", "On your phone, join the Wi-Fi network “" + result.name + "”, open 192.168.4.1 and pick your home Wi-Fi.");
