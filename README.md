@@ -27,7 +27,7 @@ Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in H
    [Setup and factory reset](docs/setup.md).
 4. **Use it.** Plug your pedal into the box's **USB-A** port, open Helrig, and pick the box in the device menu.
 
-The Wi-Fi is 2.4 GHz only. The box has no password of its own yet, so use it on a network you trust.
+The Wi-Fi is 2.4 GHz only. The box keeps up to three Wi-Fi networks, and each computer or tablet pairs with it once by pressing the board's BOOT button. Pairing does not encrypt anything, so use the box on a network you trust.
 
 ## Questions and problems
 

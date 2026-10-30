@@ -23,7 +23,7 @@ You also need [Helrig](https://helrig.com) on your computer. Connecting to a ped
 4. Press **Connect and install** and choose **USB Single Serial** in the list (it may be named `usbmodem`, `ttyACM` or a COM port).
 5. Wait about **2 minutes** and keep the tab open and the cable connected. The board restarts by itself.
 
-Updating a box that is already set up keeps its Wi-Fi network. To start from scratch, tick **Start as a new box** before pressing the button.
+Updating a box that is already set up keeps its Wi-Fi networks and its pairings. To start from scratch, tick **Start as a new box** before pressing the button; every device then has to pair with the box again.
 
 Then continue with [Setting up a Helrig Box](setup.md).
 
