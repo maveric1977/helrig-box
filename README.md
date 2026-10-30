@@ -16,6 +16,8 @@ The pedal plugs into the box by USB. The box joins your Wi-Fi. Helrig finds it a
 
 Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in Helrig needs Helrig Connect or Helrig Pro.
 
+[Watch the Helrig Box video on YouTube](https://youtu.be/9akt9vG8okY).
+
 ## Get one running
 
 1. **Get the parts.** A [Waveshare ESP32-P4-NANO](https://www.waveshare.com/esp32-p4-nano.htm?sku=29026) board ([wiki](https://www.waveshare.com/wiki/ESP32-P4-NANO)), a USB-C cable that carries data, a USB-C power source,
