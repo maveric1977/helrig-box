@@ -97,6 +97,24 @@ if (tooLong.length) { console.error("build-docs: " + tooLong.join("\nbuild-docs:
 
 // The <head> tags every page shares, docs and flasher alike: title, description, canonical, icons, theme colour, Open Graph and Twitter.
 const ORIGIN = "https://box.helrig.com";
+// Anonymous usage stats, in the same PostHog project as helrig.com (EU), through the same reverse proxy so ad blockers leave it alone.
+// The key is a public ingest token. Identity stays in localStorage: no cookie, so no banner, and no shared identity with helrig.com.
+// Runs only on the real site, so local builds and Vercel previews send nothing. `surface` keeps these events apart from the website's.
+// A hand-written loader instead of PostHog's minified snippet: it queues the two calls the pages make until array.js loads.
+const POSTHOG_KEY = "phc_BUiHu6BGVqvzuWkVUTe8XFd2Yq5v5m9GjTcnMoKzcwe4";
+const POSTHOG_HOST = "https://t.helrig.com";
+const ANALYTICS = `<script>
+(function(w,d){
+if(w.location.hostname!=="box.helrig.com")return;
+var p=w.posthog=[];p._i=[];p.__SV=1;
+p.init=function(k,c,n){p._i.push([k,c,n])};
+["capture","register"].forEach(function(m){p[m]=function(){p.push([m].concat([].slice.call(arguments)))}});
+p.init("${POSTHOG_KEY}",{api_host:"${POSTHOG_HOST}",ui_host:"https://eu.posthog.com",defaults:"2026-05-30",persistence:"localStorage",autocapture:true,capture_pageleave:true,disable_session_recording:true,disable_surveys:true});
+p.register({surface:"box"});
+var s=d.createElement("script");s.async=true;s.crossOrigin="anonymous";s.src="${POSTHOG_HOST}/static/array.js";
+d.head.appendChild(s);
+})(window,document);
+</script>`;
 const THEME_COLOR = "#060406";   // --bg in site.css
 const OG_IMAGE_ALT = "The Helrig Box, a small black case with the Helrig logo, next to the words Helrig Box";
 // Brand exports made in Figma. Each is linked only once its file is in brand/, so no tag points at a missing file.
@@ -124,6 +142,7 @@ function headTags(src, url) {
     have["og.png"] && `<meta property="og:image:alt" content="${esc(OG_IMAGE_ALT)}">`,
     `<meta name="twitter:card" content="summary_large_image">`,
     have["og.png"] && `<meta name="twitter:image" content="${ORIGIN}/og.png">`,
+    ANALYTICS,
   ];
   return tags.filter(Boolean).join("\n");
 }
@@ -225,7 +244,7 @@ ${headTags(src, urlOf(src))}
 <link rel="stylesheet" href="/site.css"><style>${CSS}</style></head>
 <body>${header(urlOf(src))}
 <main>${body}</main>
-<footer>Source: <a href="${GITHUB}${src}">${esc(src)}</a> on GitHub.</footer></body></html>
+<footer>Source: <a href="${GITHUB}${src}">${esc(src)}</a> on GitHub. This site counts visits and clicks anonymously with PostHog in the EU. No cookies, no ads.</footer></body></html>
 `;
 }
 

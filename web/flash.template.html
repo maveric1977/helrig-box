@@ -119,7 +119,8 @@
   <footer>
     Firmware: <a href="https://github.com/mpeskett88/ToneRelay">ToneRelay</a> (MIT) with the Helrig Box profile, from <a href="https://github.com/maveric1977/helrig-box">helrig-box</a>.
     Flashing uses <a href="https://github.com/espressif/esptool-js">esptool-js</a> (Apache-2.0). Helrig and the Helrig Box logo are Helrig's.
-    Nothing from your computer is sent anywhere. The page only downloads the firmware and talks to your board.
+    Nothing from your computer or your board is sent anywhere. The page only downloads the firmware and talks to your board.
+    The site counts visits, clicks and whether an install worked, anonymously, with PostHog in the EU. No cookies, no ads.
   </footer>
 </main>
 
@@ -135,6 +136,8 @@ const log = s => { logEl.textContent += s + "\n"; logEl.scrollTop = logEl.scroll
 const state = s => { document.body.dataset.state = s; };
 const say = (s, cls = "") => { msg.textContent = s; msg.className = cls; };
 const hex = buf => [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+// Anonymous install counts (see the PostHog loader in <head>). Never sends the board's serial port, MAC or Wi-Fi name, and a missing or blocked PostHog changes nothing.
+const track = (name, props) => { try { if (window.posthog) window.posthog.capture(name, props); } catch (_) {} };
 
 // Links to other sites open in a new tab.
 for (const a of document.querySelectorAll('a[href^="http"]')) {
@@ -208,6 +211,8 @@ async function install() {
   go.disabled = true; bar.value = 0; logEl.textContent = ""; say("");
   state("working");
   let transport = null;
+  const firmware = manifest && manifest.version, fresh = $("fresh").checked;
+  track("box_flash_started", { firmware, erase_saved: fresh });
   try {
     say("Choose “USB Single Serial” in the list…");
     const port = await navigator.serial.requestPort();
@@ -253,6 +258,7 @@ async function install() {
     say("Installed. Waiting for the board to start…", "ok");
     const result = await readBootLog(port);
     log("Start-up result: " + JSON.stringify(result));
+    track("box_flash_succeeded", { firmware, erase_saved: fresh, boot_result: result ? result.kind : "unreadable" });
     if (result && result.kind === "joined") {
       say("Done. The board is running.", "ok");
       setNext("All set", "Your box joined " + (result.ssid ? "“" + result.ssid + "”" : "your Wi-Fi") + " and is at " + result.ip + ". Open Helrig and choose the box in the device menu. The first time, press Pair, then press BOOT on the board once.");
@@ -271,6 +277,7 @@ async function install() {
     const m = e && e.name === "NotFoundError" ? "No port was chosen. Press Install and pick “USB Single Serial”." : (e && e.message) || String(e);
     say(m + " If it stopped halfway, run the install again.", "bad");
     log("Error: " + m);
+    track("box_flash_failed", { firmware, erase_saved: fresh, error: String(m).slice(0, 120), cancelled: !!(e && e.name === "NotFoundError") });
     state("error");
   } finally {
     try { if (transport) await transport.disconnect(); } catch (_) {}
