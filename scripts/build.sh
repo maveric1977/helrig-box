@@ -18,6 +18,8 @@ if [[ -z "${IDF_PATH:-}" ]]; then
 fi
 
 export TONERELAY_PROFILE_DIR="$HERE/profile"
+# Bluetooth MIDI (ToneRelay's sdkconfig.midi.defaults): the box also shows up as a Bluetooth MIDI device. The link has to be encrypted.
+export ESP_IDF_SDKCONFIG_DEFAULTS="${ESP_IDF_SDKCONFIG_DEFAULTS:-sdkconfig.defaults;sdkconfig.midi.defaults}"
 cd "$TONERELAY_DIR/esp32-p4"
 # The profile is read when the C component is configured; touching this file makes cargo rebuild it, so switching profile takes effect.
 touch sdkconfig.defaults
