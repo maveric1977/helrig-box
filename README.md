@@ -14,7 +14,9 @@
 
 The pedal plugs into the box by USB. The box joins your Wi-Fi. Helrig finds it and edits the pedal as it would over a cable. The box only passes the pedal's USB signal along. It never reads or changes your presets.
 
-Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in Helrig needs Helrig Connect or Helrig Pro.
+It also works as a Bluetooth MIDI device, so a setlist app such as OnSong can change presets on the pedal. [Bluetooth MIDI guide](docs/bluetooth-midi.md).
+
+Tried so far with a **Helix LT** and an **HX Stomp**. Bluetooth MIDI has only been tried with an HX Stomp. Connecting to a pedal in Helrig needs Helrig Connect or Helrig Pro.
 
 [Watch the Helrig Box video on YouTube](https://youtu.be/9akt9vG8okY).
 
@@ -27,6 +29,7 @@ Tried so far with a **Helix LT** and an **HX Stomp**. Connecting to a pedal in H
 3. **Set it up.** On your phone, join the Wi-Fi network the box makes. It is called **Helrig Box** plus six characters. Open `http://192.168.4.1` and pick your home Wi-Fi.
    [Setup and factory reset](docs/setup.md).
 4. **Use it.** Plug your pedal into the box's **USB-A** port, open Helrig, and pick the box in the device menu. The first time, press **Pair** in Helrig, then press **BOOT** on the board once.
+5. **Switch presets from a setlist app.** Connect the box as a Bluetooth MIDI device on your iPad or Mac, then pick it in your app. [Steps](docs/bluetooth-midi.md).
 
 The box works on 2.4 GHz Wi-Fi only. It remembers up to three networks, so home, the rehearsal room and your phone's hotspot can all work. Each computer or tablet pairs with the box once, by pressing the BOOT button on the board. Pairing needs Helrig 1.5.3 or later. It does not encrypt the traffic, so use the box on a network you trust.
 

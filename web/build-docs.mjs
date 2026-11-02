@@ -59,6 +59,10 @@ const pages = {
     title: "Set up a Helrig Box on your Wi-Fi",
     description: "Join the box's Wi-Fi, add your home network, pair your computer, and find the box in Helrig. Covers several networks and factory reset.",
   },
+  "docs/bluetooth-midi.md": {
+    title: "Bluetooth MIDI: switch presets from OnSong",
+    description: "Change presets on your Helix or HX from OnSong or any Bluetooth MIDI app, through a Helrig Box. Setup for iPad and Mac.",
+  },
   "hardware/casing/README.md": {
     title: "3D-printable case for the Helrig Box", full: true,
     description: "STL files for a Helrig Box case in single colour or multi colour, sized for the Waveshare ESP32-P4-NANO. M2×7 screws, CC BY 4.0.",
@@ -207,6 +211,7 @@ const nav = [
   ["Install", "/flash", u => u === "/flash"],
   ["Guide", "/docs/flashing", u => u === "/docs/flashing"],
   ["Setup", "/docs/setup", u => u === "/docs/setup"],
+  ["Bluetooth MIDI", "/docs/bluetooth-midi", u => u === "/docs/bluetooth-midi"],
   ["Case", "/hardware/casing/", u => u.startsWith("/hardware/")],
   ["Developers", "/docs/dev/architecture", u => u.startsWith("/docs/dev/")],
 ];

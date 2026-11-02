@@ -23,6 +23,8 @@ You also need [Helrig](https://helrig.com) on your computer. Connecting to a ped
 4. Press **Install** and choose **USB Single Serial** in the list. It may show up as `usbmodem`, `ttyACM` or a COM port.
 5. Wait about **2 minutes** and keep the tab open and the cable connected. The board restarts by itself.
 
+This build also includes Bluetooth MIDI. To add it to a box you already have, flash it the same way.
+
 Installing over a box you already set up keeps its Wi-Fi networks and pairings, so you can update without setting it up again. To wipe those too, open **Options** on the flasher page and tick **Start as a new box** before you press Install. Every device then has to pair again.
 
 Then continue with [Setting up a Helrig Box](setup.md).
