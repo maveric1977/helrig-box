@@ -20,7 +20,7 @@ It does the job of a Bluetooth MIDI adapter such as a WIDI Jack, with the box yo
 - The pedal in the box's USB-A port, as usual.
 - An iPad or a Mac.
 
-This part does not go through Helrig: the app talks to the box directly.
+This part does not go through Helrig: the app talks to the box directly. The pairing here is Bluetooth pairing, in your iPad's or Mac's own list. It is separate from Helrig's pairing, the BOOT-button step you do for editing over Wi-Fi.
 
 ## Set it up on an iPad
 
@@ -45,6 +45,8 @@ OnSong's own Bluetooth button did not connect the box in our tests. Connect it f
 
 ## If the iPad lists the box but will not connect
 
-Turn the iPad's Bluetooth off and on, then try again. If that fails, forget the box (**Edit** in the list) and pair it again.
+Turn the iPad's Bluetooth off and on, then try again. If that fails, forget the box and pair it again. On an iPad, forgetting it in the Bluetooth MIDI list (**Edit**) is not enough: also forget it in **Settings**, **Bluetooth**, under **My Devices**. Pair again after that. In our test the first connection right after a fresh pairing dropped once, and tapping the box again connected it. After pairing again, close OnSong and Helrig completely and open them again: neither listed the box as connected until we did.
+
+Do the same after a factory reset (BOOT held for 5 seconds) or after flashing with **Start as a new box**. The box forgets its Bluetooth pairings, so your iPad or Mac has to forget the box too.
 
 OnSong, WIDI and Bluetooth are trademarks of their owners. Helrig and the Helrig Box are not affiliated with Line 6 or Yamaha Guitar Group.

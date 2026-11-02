@@ -13,7 +13,7 @@
 So far it has been tried with a Helix LT and an HX Stomp. Other Helix and HX pedals have not been tried. The Wi-Fi is **2.4 GHz only**, so the setup page does not list
 5 GHz networks. Other ESP32-P4 boards are untested.
 
-You also need [Helrig](https://helrig.com) on your computer. Connecting to a pedal needs Helrig Connect or Helrig Pro.
+You also need [Helrig](https://helrig.com) on your computer to edit the pedal. Connecting to a pedal needs Helrig Connect or Helrig Pro. Bluetooth MIDI does not use Helrig.
 
 ## Flash it from your browser
 
@@ -58,3 +58,4 @@ sudo usermod -aG dialout $USER
   USB replug is sometimes not enough. Helrig never sends a USB reset.
 - **Helrig says the box needs pairing, or there is no Pair button.** Update Helrig to 1.5.3 or later. Then press **Pair** and, within 30 seconds, press **BOOT** on the board once. Hold it for 5 seconds and you factory-reset the box instead.
 - **Do not hold BOOT while the board powers up.** That starts the chip's download mode instead of the firmware.
+- **The iPad or Mac lists the box but will not connect (Bluetooth MIDI).** Forget the box and connect again. On an iPad, forget it in the Bluetooth MIDI list (**Edit**) and also in **Settings**, **Bluetooth**. Do this after you flash with **Start as a new box** or hold BOOT for 5 seconds: the box forgets its pairings, so your device has to forget the box too.

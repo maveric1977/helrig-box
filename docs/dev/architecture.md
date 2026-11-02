@@ -7,15 +7,15 @@ and improvements to it go back to ToneRelay.
 
 ![Helrig on your computer, connected over Wi-Fi to the Helrig Box, connected by USB to your Helix or HX pedal](../../brand/diagrams/helrig-box-diagram-dark.svg)
 
-The box carries the pedal's USB transfers and does not interpret them; Helrig is the only thing that speaks the pedal's protocol. The contract
-between the two is ToneRelay's `docs/raw-relay-protocol.md`.
+For editing, the box carries the pedal's USB transfers and does not interpret them; Helrig is the only thing that speaks the pedal's protocol. The contract
+between the two is ToneRelay's `docs/raw-relay-protocol.md`. For Bluetooth MIDI, the box receives MIDI over Bluetooth LE and sends it to the pedal's USB MIDI interface; see the [Bluetooth MIDI guide](../bluetooth-midi.md) and ToneRelay's `docs/ble-midi.md`.
 
 | Path | What it is |
 |---|---|
 | `profile/profile.c` | The Helrig Box's names and defaults. |
 | `profile/setup.html` | The setup and status page the box serves (about 9 KB, no network requests, the logo inline). |
 | `brand/` | The lockup, icon and diagram SVGs, and the brief the setup page follows. Helrig's artwork: see `NOTICE.md`. |
-| `scripts/build.sh`, `scripts/flash.sh` | Build ToneRelay with this profile; flash it, and optionally clear the box's settings. |
+| `scripts/build.sh`, `scripts/flash.sh` | Build ToneRelay with this profile and its Bluetooth MIDI settings; flash it, and optionally clear the box's settings. |
 | `hardware/casing/` | The 3D-printable case (STL files, previews and print notes), an adaptation of a CC BY 4.0 model: see `NOTICE.md`. |
 | `scripts/package-web.sh` | Split the build into the parts the web flasher writes. |
 | `web/` | The site at box.helrig.com, deployed by Vercel: the overview, the web flasher (`/flash`, from `web/flash.template.html`) and the docs, which `build-docs.mjs` builds from `README.md`, `docs/` and `hardware/`, all with the same navbar ([releasing](releasing.md)). |

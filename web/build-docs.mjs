@@ -43,9 +43,9 @@ const SUFFIX = " · Helrig Box";
 const FALLBACK_DESCRIPTION = "A small DIY box that puts your Line 6 Helix or HX on your Wi-Fi for the Helrig apps.";
 const pages = {
   "README.md": {
-    title: "Helrig Box: put your Helix or HX on Wi-Fi (DIY build)", full: true,
-    description: "Build a small box that puts your Line 6 Helix or HX on Wi-Fi, so the Helrig apps edit it without a cable. Waveshare board, browser flasher, 3D-printed case.",
-    og: { title: "Helrig Box: your pedal, on your Wi-Fi", description: "A DIY box that puts your Helix or HX on your Wi-Fi. Flash it from your browser in about 2 minutes, print the case, and edit your pedal from the Helrig apps." },
+    title: "Helrig Box: your Helix or HX on Wi-Fi and Bluetooth MIDI", full: true,
+    description: "Build a small box that puts your Line 6 Helix or HX on Wi-Fi for Helrig and lets OnSong or any Bluetooth MIDI app switch presets. Browser flasher, printed case.",
+    og: { title: "Helrig Box: your pedal on Wi-Fi and Bluetooth MIDI", description: "A DIY box that puts your Helix or HX on your Wi-Fi and takes Bluetooth MIDI from OnSong. Flash it from your browser in about 2 minutes, print the case, and edit your pedal from the Helrig apps." },
   },
   "flash.template.html": {
     title: "Install the Helrig Box firmware in your browser", full: true,

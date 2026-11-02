@@ -27,3 +27,8 @@ been exercised.]
 [Measured: the web flasher wrote the firmware from macOS Chrome, served from localhost, in about 124 to 126 s at 115200 baud, four times; a faster
 baud rate reset the board mid-flash, and the box did not start afterwards until it was reflashed (once). Updates kept the saved Wi-Fi. The board enumerated as a standard serial
 device on macOS, Windows 11 and Ubuntu with no driver installed. Not tried: the published https page, Windows or Linux Chrome, a release build.]
+
+## Bluetooth MIDI
+
+- **Tried:** an HX Stomp with an iPad (OnSong, AUM) and a Mac (Audio MIDI Setup) connecting and pairing; program changes and MIDI clock reaching the box and the pedal; the Stomp's MIDI Thru passing them to other pedals; a Helrig session over Wi-Fi at the same time.
+- **Not measured:** latency, range, an hour-long run, two devices connected at once, other pedals, Windows and Linux.

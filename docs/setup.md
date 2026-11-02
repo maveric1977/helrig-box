@@ -26,6 +26,8 @@ Pairing tells the box which computers and tablets it should trust. A device that
 
 Pair each computer or tablet you use, once. If Helrig says the box didn't accept the saved pairing, press **Pair** again. If it says another device is pairing, wait a minute. The box handles one pairing at a time.
 
+This is pairing for Helrig. Bluetooth MIDI pairs separately, in the Bluetooth list of your iPad or Mac: see [Bluetooth MIDI](bluetooth-midi.md).
+
 Pairing does not encrypt the traffic between the box and your computer, so use the box on a network you trust, like your home or your rehearsal room. See [Safety](#safety).
 
 ## Several Wi-Fi networks
@@ -40,7 +42,7 @@ The box remembers up to three Wi-Fi networks, for example home, the rehearsal ro
 
 ## Factory reset
 
-To wipe the box and start over, hold the **BOOT** button on the board for 5 seconds while the box is running. It forgets every Wi-Fi network, the password of its own setup network, and its pairing token (the key that proves a device is paired). Then it restarts and brings back its setup network. It is still a Helrig Box, and every device has to pair again.
+To wipe the box and start over, hold the **BOOT** button on the board for 5 seconds while the box is running. It forgets every Wi-Fi network, the password of its own setup network, its pairing token (the key that proves a device is paired) and every Bluetooth pairing. Then it restarts and brings back its setup network. It is still a Helrig Box, and every device has to pair again. Your iPad or Mac keeps its side of a Bluetooth pairing, so forget the box there before you connect again. On an iPad, forget it in the Bluetooth MIDI list and in Settings, Bluetooth. See [Bluetooth MIDI](bluetooth-midi.md).
 
 Do not hold BOOT while you plug the power in. That starts the chip's download mode instead of the firmware.
 
@@ -49,3 +51,5 @@ The board has only a power light, so nothing blinks. About 5 seconds after the r
 ## Safety
 
 Pairing stops other devices on your Wi-Fi from using the pedal through the box. It does not encrypt the traffic between the box and your computer, so use the box on a network you trust, like your home or your rehearsal room.
+
+Bluetooth MIDI is separate. Anyone within Bluetooth range can pair with the box, because there is no pairing window yet. Once paired, the link is encrypted.
