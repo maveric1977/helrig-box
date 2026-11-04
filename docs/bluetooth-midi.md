@@ -8,6 +8,8 @@ It does the job of a Bluetooth MIDI adapter such as a WIDI Jack, with the box yo
 
 **Setlist apps.** Tell OnSong which preset a song uses. When you open the song, the pedal changes. The app also sends its tempo clock, and the box passes that on too.
 
+**Your app following the pedal.** A preset or snapshot change you make on the pedal's footswitches reaches your tablet or phone as MIDI: program changes, control changes and notes. On our bench, a snapshot change on an HX Stomp showed up in an app on an iPhone as control change 69 on channel 7. SysEx and MIDI clock from the pedal are not sent back. The HX Stomp repeats what it receives on its USB MIDI port, so the box drops that echo and your app does not hear its own messages. This needs firmware v1.2.0 or later.
+
 **The rest of your rig.** On our bench the HX Stomp's own MIDI Thru passed the messages on to other pedals.
 
 **Editing and switching together.** Helrig can edit the pedal over Wi-Fi while your app switches presets over Bluetooth. We ran both at once.
@@ -16,7 +18,7 @@ It does the job of a Bluetooth MIDI adapter such as a WIDI Jack, with the box yo
 
 ## What you need
 
-- A Helrig Box with the Bluetooth MIDI firmware. Flash it at [box.helrig.com/flash](https://box.helrig.com/flash). A box you already have keeps its Wi-Fi networks.
+- A Helrig Box with the Bluetooth MIDI firmware (v1.1.0 or later; v1.2.0 to get the pedal's changes back in your app). Flash it at [box.helrig.com/flash](https://box.helrig.com/flash). A box you already have keeps its Wi-Fi networks.
 - The pedal in the box's USB-A port, as usual.
 - An iPad or a Mac.
 

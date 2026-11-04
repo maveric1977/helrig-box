@@ -14,7 +14,7 @@
 
 The pedal plugs into the box by USB. The box joins your Wi-Fi. Helrig finds it and edits the pedal as it would over a cable. For editing, the box only passes the pedal's USB signal along. It never reads or changes your presets.
 
-It also works as a Bluetooth MIDI device, so a setlist app such as OnSong can change presets on the pedal. The box passes the MIDI messages it receives on to the pedal. [Bluetooth MIDI guide](docs/bluetooth-midi.md).
+It also works as a Bluetooth MIDI device, so a setlist app such as OnSong can change presets on the pedal. The box passes the MIDI messages it receives on to the pedal, and from v1.2.0 it sends the pedal's own preset and snapshot changes back to the app. [Bluetooth MIDI guide](docs/bluetooth-midi.md).
 
 Tried so far with a **Helix LT** and an **HX Stomp**. Bluetooth MIDI has only been tried with an HX Stomp. Connecting to a pedal in Helrig needs Helrig Connect or Helrig Pro.
 
