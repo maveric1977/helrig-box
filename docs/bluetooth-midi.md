@@ -39,7 +39,7 @@ OnSong's own Bluetooth button did not connect the box in our tests. Connect it f
 ## What it does not do
 
 - It does not edit presets over Bluetooth.
-- It goes one way. The pedal's MIDI output is not read.
+- From the pedal, it sends back program changes, control changes and notes only (a preset or snapshot change made on the pedal reaches your app). SysEx and MIDI clock from the pedal are not passed on.
 - Anyone within Bluetooth range can pair with the box. There is no pairing window yet. Once paired, the link is encrypted.
 - It has only been tried with an HX Stomp, an iPad, a Mac and an Android tablet. Windows and Linux are untried.
 
